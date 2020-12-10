@@ -14,4 +14,4 @@
   
   - name: Pause all sensor for host
     uri:
-      url: http://192.168.254.155/api/pauseobjectfor.htm?id=2087&duration=30&pausemsg=auto_paused_for_server_maint&username=prtgadmin&passhash=1112233445
+      url: http://192.168.254.155/api/pauseobjectfor.htm?id=2087&duration=30&pausemsg=auto_paused_for_server_maint&username=prtgadmin&password=prtgadmin
