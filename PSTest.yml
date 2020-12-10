@@ -12,5 +12,6 @@
   connection: local
   tasks:
   
-  - name: check out a git repository
-    url: https://google.co.cr
+  - name: Create a JIRA issue
+    uri:
+      url: https://your.jira.example.com/rest/api/2/issue/
