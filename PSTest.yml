@@ -1,3 +1,8 @@
 ---
+
 - name: Execute a comand in the remote shell
-  ansible.windows.win_shell: C:\Temp\MyScript.ps1 > C:\Temp\A.txt
+  hosts: all
+  tasks:
+
+    - name: Execute a comand in the remote shell
+      ansible.windows.win_shell: C:\Temp\MyScript.ps1 > C:\Temp\A.txt
