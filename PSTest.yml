@@ -5,8 +5,7 @@
   tasks:
     
     - name: Pause PRTG
-      uri:
-        url: https://your.jira.example.com/rest/api/2/issue/
+      url: https://your.jira.example.com/rest/api/2/issue/
       
     - name: Execute a comand in the remote shell
       win_shell: C:\Temp\MyScript.ps1 > C:\Temp\A.txt
