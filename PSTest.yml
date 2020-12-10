@@ -7,11 +7,11 @@
     - name: Execute a comand in the remote shell
       win_shell: C:\Temp\MyScript.ps1 > C:\Temp\A.txt
       
-- name: a play that runs entirely on the ansible host
+- name: Call URL from Ansible Host
   hosts: 127.0.0.1
   connection: local
   tasks:
   
-  - name: Create a JIRA issue
+  - name: Call Google
     uri:
-      url: https://your.jira.example.com/rest/api/2/issue/
+      url: https://google.co.cr
