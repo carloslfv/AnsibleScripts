@@ -7,11 +7,11 @@
     - name: Execute a comand in the remote shell
       win_shell: C:\Temp\MyScript.ps1 > C:\Temp\A.txt
       
-- name: Call URL from Ansible Host
+- name: Pause PRTG Sensor
   hosts: 127.0.0.1
   connection: local
   tasks:
   
-  - name: Call Google
+  - name: Pause all sensor for host
     uri:
-      url: https://google.co.cr
+      url: http://192.168.254.155/api/pauseobjectfor.htm?id=2087&duration=30&pausemsg=auto_paused_for_server_maint&username=prtgadmin&passhash=1112233445
