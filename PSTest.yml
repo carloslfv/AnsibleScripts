@@ -3,9 +3,14 @@
 - name: Execute a comand in the remote shell
   hosts: all
   tasks:
-    
-    - name: Pause PRTG
-      url: https://google.co.cr
-      
+     
     - name: Execute a comand in the remote shell
       win_shell: C:\Temp\MyScript.ps1 > C:\Temp\A.txt
+      
+- name: a play that runs entirely on the ansible host
+  hosts: 127.0.0.1
+  connection: local
+  tasks:
+  
+  - name: check out a git repository
+    url: https://google.co.cr
