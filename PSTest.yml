@@ -5,4 +5,4 @@
   tasks:
 
     - name: Execute a comand in the remote shell
-      - win_shell: C:\Temp\MyScript.ps1 > C:\Temp\A.txt
+      win_shell: C:\Temp\MyScript.ps1 > C:\Temp\A.txt
