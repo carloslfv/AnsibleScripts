@@ -14,11 +14,11 @@
   
   - name: Downtime Start
     uri:
-      url: http://192.168.254.155/api/setobjectproperty.htm?id=2087&name=maintstart&value=2014-11-24-12-00&username=prtgadmin&password=prtgadmin
+      url: http://192.168.254.155/api/setobjectproperty.htm?id=2087&name=maintstart&value=2020-12-16-00-00&username=prtgadmin&password=prtgadmin
       
   - name: Downtime End
     uri:
-      url: http://192.168.254.155/api/setobjectproperty.htm?id=2087&name=maintend&value=2014-11-24-15-00&username=prtgadmin&password=prtgadmin
+      url: http://192.168.254.155/api/setobjectproperty.htm?id=2087&name=maintend&value=2020-12-17-00-00&username=prtgadmin&password=prtgadmin
       
    - name: Enable Downtime
     uri:
