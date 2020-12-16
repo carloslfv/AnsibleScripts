@@ -26,7 +26,6 @@
         - SecurityUpdates
         - CriticalUpdates
         - UpdateRollups
-        reboot: yes
 
 - name: Resume PRTG Sensors
   hosts: 127.0.0.1
