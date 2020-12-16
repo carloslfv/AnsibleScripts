@@ -1,0 +1,59 @@
+---
+
+- name: Start PRTG Downtime
+  hosts: 127.0.0.1
+  connection: local
+  tasks:
+  
+  - name: Downtime Start
+    uri:
+      url: http://192.168.254.155/api/setobjectproperty.htm?id=2087&name=maintstart&value=2020-12-16-00-00&username=prtgadmin&password=prtgadmin
+      
+  - name: Downtime End
+    uri:
+      url: http://192.168.254.155/api/setobjectproperty.htm?id=2087&name=maintend&value=2020-12-17-00-00&username=prtgadmin&password=prtgadmin
+      
+  - name: Enable Downtime
+    uri:
+      url: http://192.168.254.155/api/setobjectproperty.htm?id=2087&name=maintenable&value=1&username=prtgadmin&password=prtgadmin
+
+- name: Snapshot the server
+  hosts: all
+  tasks: 
+  
+  - name: Create a snapshot
+    vmware_guest_snapshot:
+      hostname: "192.168.254.148"
+      username: "patching@vsphere.local"
+      password: "Abc12345*/"
+      datacenter: "CFV"
+      moid: vm-65
+      state: present
+      snapshot_name: Patching
+      description: Before patching snap
+      quiesce: no
+      memory_dump: no
+      validate_certs: no
+    delegate_to: localhost
+    
+    
+- name: Install Updates on Server and then reboot
+  hosts: all
+  tasks: 
+    - name: Install all security, critical, and rollup updates without a scheduled task
+      win_updates:
+        category_names:
+        - SecurityUpdates
+        - CriticalUpdates
+        - UpdateRollups
+        reboot: yes
+        reboot_timeout: 7200
+        
+- name: Finish 
+  hosts: 127.0.0.1
+  connection: local
+  tasks:
+  
+  - name: Finish PRTG Downtime
+    uri:
+      url: http://192.168.254.155/api/setobjectproperty.htm?id=2087&name=maintenable&value=0&username=prtgadmin&password=prtgadmin
