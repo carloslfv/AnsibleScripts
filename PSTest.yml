@@ -25,6 +25,7 @@
       hostname: "192.168.254.148"
       username: "patching@vsphere.local"
       password: "Abc12345*/"
+      validate_certs: no
     delegate_to: localhost
     register: vminfo
     
