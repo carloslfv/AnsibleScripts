@@ -61,6 +61,6 @@
   connection: local
   tasks:
   
-   - name: Cancel Downtime
+  - name: Cancel Downtime
     uri:
       url: http://192.168.254.155/api/setobjectproperty.htm?id=2087&name=maintenable&value=0&username=prtgadmin&password=prtgadmin
