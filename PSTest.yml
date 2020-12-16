@@ -26,8 +26,7 @@
       username: "patching@vsphere.local"
       password: "Abc12345*/"
       datacenter: "CFV"
-      folder: ""
-      name: "SANDBOX CLONE"
+      moid: vm-65
       state: present
       snapshot_name: Patching
       description: Before patching snap
