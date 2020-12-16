@@ -33,6 +33,7 @@
       description: Before patching snap
       quiesce: no
       memory_dump: no
+      validate_certs: no
     delegate_to: localhost
     
    
