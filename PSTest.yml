@@ -20,22 +20,14 @@
   hosts: all
   tasks: 
   
-  - name: Gather all registered virtual machines
-    vmware_vm_info:
-      hostname: "192.168.254.148"
-      username: "patching@vsphere.local"
-      password: "Abc12345*/"
-      validate_certs: no
-    delegate_to: localhost
-    register: vminfo
-    
   - name: Create a snapshot
     vmware_guest_snapshot:
       hostname: "192.168.254.148"
       username: "patching@vsphere.local"
       password: "Abc12345*/"
       datacenter: "CFV"
-      uuid: 423d71f5-3b72-05e2-7545-74da4a00544b
+      folder: "/CFV/vm/"
+      name: "SANDBOX CLONE"
       state: present
       snapshot_name: Patching
       description: Before patching snap
