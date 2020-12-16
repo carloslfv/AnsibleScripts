@@ -20,6 +20,14 @@
   hosts: all
   tasks: 
   
+  - name: Gather all registered virtual machines
+    vmware_vm_info:
+      hostname: "192.168.254.148"
+      username: "patching@vsphere.local"
+      password: "Abc12345*/"
+    delegate_to: localhost
+    register: vminfo
+    
   - name: Create a snapshot
     vmware_guest_snapshot:
       hostname: "192.168.254.148"
