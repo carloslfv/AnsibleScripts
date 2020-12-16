@@ -19,15 +19,34 @@
 - name: Snapshot the server
   hosts: all
   tasks: 
-
-    - name: Gather all registered virtual machines
-    vmware_vm_info:
+  
+	- name: Create a snapshot
+    vmware_guest_snapshot:
       hostname: "192.168.254.148"
       username: "patching@vsphere.local"
       password: "Abc12345*/"
+      datacenter: "CFV"
+      uuid: 423d71f5-3b72-05e2-7545-74da4a00544b
+      state: present
+      snapshot_name: Patching
+      description: Before patching snap
+      quiesce: no
+      memory_dump: no
+      validate_certs: no
     delegate_to: localhost
-    register: vminfo
-
+    
+    
+- name: Install Updates on Server and then reboot
+  hosts: all
+  tasks: 
+    - name: Install all security, critical, and rollup updates without a scheduled task
+      win_updates:
+        category_names:
+        - SecurityUpdates
+        - CriticalUpdates
+        - UpdateRollups
+        reboot: yes
+        
 - name: Resume PRTG Sensors
   hosts: 127.0.0.1
   connection: local
