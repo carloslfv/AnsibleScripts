@@ -15,6 +15,26 @@
   - name: Pause all sensor for host
     uri:
       url: http://192.168.254.155/api/pauseobjectfor.htm?id=2087&duration=30&pausemsg=auto_paused_for_server_maint&username=prtgadmin&password=prtgadmin
+
+- name: Snapshot the server
+  hosts: all
+  tasks: 
+
+  - name: Create a snapshot
+    vmware_guest_snapshot:
+      hostname: "192.168.254.148"
+      username: "patching@vsphere.local"
+      password: "Abc12345*/"
+      datacenter: "CFV"
+      folder: "CFV/"
+      name: "SANDBOX CLONE"
+      state: present
+      snapshot_name: snap1
+      description: snap1_description
+      quiesce: no
+      memory_dump: no
+    delegate_to: localhost
+    
    
 - name: Install Updates on Server and then reboot
   hosts: all
