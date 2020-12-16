@@ -27,3 +27,12 @@
         - CriticalUpdates
         - UpdateRollups
         reboot: yes
+
+- name: Resume PRTG Sensors
+  hosts: 127.0.0.1
+  connection: local
+  tasks:
+  
+  - name: Resume all sensor for host
+    uri:
+      url: http://192.168.254.155/api/pause.htm?id=2087&action=1&username=prtgadmin&password=prtgadmin
