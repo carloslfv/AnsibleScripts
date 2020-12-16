@@ -20,7 +20,7 @@
     uri:
       url: http://192.168.254.155/api/setobjectproperty.htm?id=2087&name=maintend&value=2020-12-17-00-00&username=prtgadmin&password=prtgadmin
       
-   - name: Enable Downtime
+  - name: Enable Downtime
     uri:
       url: http://192.168.254.155/api/setobjectproperty.htm?id=2087&name=maintenable&value=1&username=prtgadmin&password=prtgadmin
 
