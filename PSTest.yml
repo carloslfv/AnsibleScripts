@@ -29,8 +29,8 @@
       folder: "CFV/"
       name: "SANDBOX CLONE"
       state: present
-      snapshot_name: snap1
-      description: snap1_description
+      snapshot_name: Patching
+      description: Before patching snap
       quiesce: no
       memory_dump: no
     delegate_to: localhost
