@@ -1,7 +1,7 @@
 ---
 
--name: Save Host Name
- hosts: all
+- name: Save Host Name
+  hosts: all
   
   tasks:
   - name: Save the current hostname
