@@ -1,6 +1,5 @@
 ---
-
-
+    
 - name: Start Notification Email
   hosts: 127.0.0.1
   connection: local
@@ -14,7 +13,7 @@
       password: szmvgvbdbkwetezk
       to: cfernandez@t4.cr
       subject: Ansible-report
-      body: System "{{ hostvars['host_group'].Description }}" Started.
+      body: System Started.
     delegate_to: localhost
       
 - name: Snapshot the server
@@ -62,5 +61,5 @@
       password: szmvgvbdbkwetezk
       to: cfernandez@t4.cr
       subject: Ansible-report
-      body: System "{{ hostvars['host_group'].Description }}" Finished.
+      body: System Finished.
     delegate_to: localhost
