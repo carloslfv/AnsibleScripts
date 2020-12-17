@@ -10,7 +10,7 @@
       host: smtp.gmail.com
       port: 587
       username: ansibletesting2020@gmail.com
-      password: Abc12345*/
+      password: szmvgvbdbkwetezk
       to: cfernandez@t4.cr
       subject: Ansible-report
       body: System {{ ansible_hostname }} Started.
@@ -58,7 +58,7 @@
       host: smtp.gmail.com
       port: 587
       username: ansibletesting2020@gmail.com
-      password: Abc12345*/
+      password: szmvgvbdbkwetezk
       to: cfernandez@t4.cr
       subject: Ansible-report
       body: System {{ ansible_hostname }} Finished.
