@@ -6,7 +6,7 @@
   tasks:
   - name: Save the current hostname
     vars:
-      invhst: {{ inventory_hostname }}
+      invhst: "{{ inventory_hostname }}"
  
 - name: Start Notification Email
   hosts: 127.0.0.1
@@ -21,7 +21,7 @@
       password: szmvgvbdbkwetezk
       to: cfernandez@t4.cr
       subject: Ansible-report
-      body: System {{ invhst }} Started.
+      body: System "{{ invhst }}" Started.
     delegate_to: localhost
       
 - name: Snapshot the server
@@ -69,5 +69,5 @@
       password: szmvgvbdbkwetezk
       to: cfernandez@t4.cr
       subject: Ansible-report
-      body: System {{ invhst }} Finished.
+      body: System "{{ invhst }}" Finished.
     delegate_to: localhost
