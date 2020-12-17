@@ -1,21 +1,13 @@
 ---
 
-- name: Start PRTG Downtime
+- name: Start Notification Email
   hosts: 127.0.0.1
   connection: local
   tasks:
   
-  - name: Downtime Start
+  - name: Send Email
     uri:
       url: http://192.168.254.155/api/setobjectproperty.htm?id=2087&name=maintstart&value=2020-12-16-00-00&username=prtgadmin&password=prtgadmin
-      
-  - name: Downtime End
-    uri:
-      url: http://192.168.254.155/api/setobjectproperty.htm?id=2087&name=maintend&value=2020-12-17-00-00&username=prtgadmin&password=prtgadmin
-      
-  - name: Enable Downtime
-    uri:
-      url: http://192.168.254.155/api/setobjectproperty.htm?id=2087&name=maintenable&value=1&username=prtgadmin&password=prtgadmin
 
 - name: Snapshot the server
   hosts: all
@@ -49,7 +41,7 @@
         reboot: yes
         reboot_timeout: 7200
         
-- name: Finish 
+- name: End Notification Email 
   hosts: 127.0.0.1
   connection: local
   tasks:
