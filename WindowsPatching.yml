@@ -5,10 +5,17 @@
   connection: local
   tasks:
   
-  - name: Send Email
-    uri:
-      url: http://192.168.254.155/api/setobjectproperty.htm?id=2087&name=maintstart&value=2020-12-16-00-00&username=prtgadmin&password=prtgadmin
-
+  - name: Sending an e-mail using Gmail SMTP servers
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ansibletesting2020@gmail.com
+    password: Abc12345*/
+    to: cfernandez@t4.cr
+    subject: Ansible-report
+    body: System {{ ansible_hostname }} Started.
+  delegate_to: localhost
+      
 - name: Snapshot the server
   hosts: all
   tasks: 
@@ -41,11 +48,18 @@
         reboot: yes
         reboot_timeout: 7200
         
-- name: End Notification Email 
+- name: Start Notification Email
   hosts: 127.0.0.1
   connection: local
   tasks:
   
-  - name: Finish PRTG Downtime
-    uri:
-      url: http://192.168.254.155/api/setobjectproperty.htm?id=2087&name=maintenable&value=0&username=prtgadmin&password=prtgadmin
+  - name: Sending an e-mail using Gmail SMTP servers
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ansibletesting2020@gmail.com
+    password: Abc12345*/
+    to: cfernandez@t4.cr
+    subject: Ansible-report
+    body: System {{ ansible_hostname }} Finished.
+  delegate_to: localhost
