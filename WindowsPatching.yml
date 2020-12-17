@@ -1,8 +1,9 @@
 ---
+
 -name: Save Host Name
   hosts: all
   
-  task:
+  tasks:
   - name: Save the current hostname
     vars:
       invhst: {{ inventory_hostname }}
