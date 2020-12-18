@@ -7,15 +7,15 @@
   
   - name: Sending an e-mail using Gmail SMTP servers
     vars:
-      my_somevar: "{{ somevar }}"
+      my_host: "{{ hostnameIP }}"
     mail:
       host: smtp.gmail.com
       port: 587
       username: ansibletesting2020@gmail.com
       password: szmvgvbdbkwetezk
       to: cfernandez@t4.cr
-      subject: Ansible-report
-      body: System "{{ my_somevar }}" Started.
+      subject: Starting Patch Process on Host "{{ my_host }}"
+      body: Starting Patch Process on Host "{{ my_host }}"
     delegate_to: 127.0.0.1
       
 - name: Snapshot the server
@@ -51,17 +51,19 @@
         reboot_timeout: 7200
         
 - name: Start Notification Email
-  hosts: 127.0.0.1
+  hosts: all
   connection: local
   tasks:
   
   - name: Sending an e-mail using Gmail SMTP servers
+    vars:
+      my_host: "{{ hostnameIP }}"
     mail:
       host: smtp.gmail.com
       port: 587
       username: ansibletesting2020@gmail.com
       password: szmvgvbdbkwetezk
       to: cfernandez@t4.cr
-      subject: Ansible-report
-      body: System {{ job.name }} Finished.
-    delegate_to: localhost
+      subject: Ending Patch Process on Host "{{ my_host }}"
+      body: Ending Patch Process on Host "{{ my_host }}"
+    delegate_to: 127.0.0.1
