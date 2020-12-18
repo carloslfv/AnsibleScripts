@@ -13,7 +13,7 @@
       password: szmvgvbdbkwetezk
       to: cfernandez@t4.cr
       subject: Ansible-report
-      body: System Started.
+      body: System {{ job.name }} Started.
     delegate_to: localhost
       
 - name: Snapshot the server
@@ -61,5 +61,5 @@
       password: szmvgvbdbkwetezk
       to: cfernandez@t4.cr
       subject: Ansible-report
-      body: System Finished.
+      body: System {{ job.name }} Finished.
     delegate_to: localhost
