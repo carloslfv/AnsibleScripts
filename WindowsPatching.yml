@@ -21,8 +21,8 @@
       username: "{{ MailOptionUser }}"
       password: "{{ MailOptionPass }}"
       to: "{{ MailOptionTo }}"
-      subject: "{{ MailOptionSubject }}" "{{ MailOptionHostName }}"
-      body: "{{ MailOptionBody }}" "{{ MailOptionHostName }}"
+      subject: "{{ MailOptionSubject }}" "{{ MailOptionHostName }}" STARTED
+      body: "{{ MailOptionBody }}" "{{ MailOptionHostName }}" STARTED
     delegate_to: 127.0.0.1
       
 - name: Snapshot the server
@@ -57,20 +57,27 @@
         reboot: yes
         reboot_timeout: 7200
         
-- name: Start Notification Email
+- name: End Notification Email
   hosts: all
   connection: local
   tasks:
   
   - name: Sending an e-mail using Gmail SMTP servers
     vars:
-      my_host: "{{ hostnameIP }}"
+      MailOptionHostName: "{{ hostnameIP }}"
+      MailOptionHost: "{{ MailServer }}"
+      MailOptionPort: "{{ MailPort }}"
+      MailOptionUser: "{{ MailUser }}"
+      MailOptionPass: "{{ MailPassword }}"
+      MailOptionTo: "{{ MailTo }}"
+      MailOptionSubject: "{{ MailSubject }}"
+      MailOptionBody: "{{ MailBody }}"
     mail:
-      host: smtp.gmail.com
-      port: 587
-      username: ansibletesting2020@gmail.com
-      password: szmvgvbdbkwetezk
-      to: cfernandez@t4.cr
-      subject: Ending Patch Process on Host "{{ my_host }}"
-      body: Ending Patch Process on Host "{{ my_host }}"
+      host: "{{ MailOptionHost }}"
+      port: "{{ MailOptionPort }}"
+      username: "{{ MailOptionUser }}"
+      password: "{{ MailOptionPass }}"
+      to: "{{ MailOptionTo }}"
+      subject: "{{ MailOptionSubject }}" "{{ MailOptionHostName }}" ENDED
+      body: "{{ MailOptionBody }}" "{{ MailOptionHostName }}" ENDED
     delegate_to: 127.0.0.1
