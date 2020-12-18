@@ -13,8 +13,6 @@
       MailOptionUser: "{{ MailUser }}"
       MailOptionPass: "{{ MailPassword }}"
       MailOptionTo: "{{ MailTo }}"
-      MailOptionSubject: "{{ MailSubject }}"
-      MailOptionBody: "{{ MailBody }}"
     mail:
       host: "{{ MailOptionHost }}"
       port: "{{ MailOptionPort }}"
@@ -70,8 +68,6 @@
       MailOptionUser: "{{ MailUser }}"
       MailOptionPass: "{{ MailPassword }}"
       MailOptionTo: "{{ MailTo }}"
-      MailOptionSubject: "{{ MailSubject }}"
-      MailOptionBody: "{{ MailBody }}"
     mail:
       host: "{{ MailOptionHost }}"
       port: "{{ MailOptionPort }}"
