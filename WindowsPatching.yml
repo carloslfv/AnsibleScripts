@@ -1,11 +1,11 @@
 ---
     
-- name: Start Notification Email
+- name: Send Finish Notification
   hosts: all
   connection: local
   tasks:
   
-  - name: Sending an e-mail using Gmail SMTP servers
+  - name: Sending Email
     vars:
       MailOptionHostName: "{{ hostnameIP }}"
       MailOptionHost: "{{ MailServer }}"
@@ -25,11 +25,11 @@
       body: "{{ MailOptionBody }}" "{{ MailOptionHostName }}" STARTED
     delegate_to: 127.0.0.1
       
-- name: Snapshot the server
+- name: Snapshot VM
   hosts: all
   tasks: 
   
-  - name: Create a snapshot
+  - name: Create a Snapshot
     vmware_guest_snapshot:
       hostname: "192.168.254.148"
       username: "patching@vsphere.local"
@@ -48,7 +48,7 @@
 - name: Install Updates on Server and then reboot
   hosts: all
   tasks: 
-    - name: Install all security, critical, and rollup updates without a scheduled task
+    - name: Install all security, critical, and rollup updates
       win_updates:
         category_names:
         - SecurityUpdates
@@ -57,12 +57,12 @@
         reboot: yes
         reboot_timeout: 7200
         
-- name: End Notification Email
+- name: Send Finish Notification
   hosts: all
   connection: local
   tasks:
   
-  - name: Sending an e-mail using Gmail SMTP servers
+  - name: Sending Email
     vars:
       MailOptionHostName: "{{ hostnameIP }}"
       MailOptionHost: "{{ MailServer }}"
