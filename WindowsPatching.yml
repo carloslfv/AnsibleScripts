@@ -16,7 +16,7 @@
       to: cfernandez@t4.cr
       subject: Ansible-report
       body: System "{{ my_somevar }}" Started.
-    delegate_to: localhost
+    delegate_to: 127.0.0.1
       
 - name: Snapshot the server
   hosts: all
