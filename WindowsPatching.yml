@@ -1,11 +1,13 @@
 ---
     
 - name: Start Notification Email
-  hosts: 127.0.0.1
+  hosts: all
   connection: local
   tasks:
   
   - name: Sending an e-mail using Gmail SMTP servers
+    vars:
+      my_somevar: "{{ somevar }}"
     mail:
       host: smtp.gmail.com
       port: 587
@@ -13,7 +15,7 @@
       password: szmvgvbdbkwetezk
       to: cfernandez@t4.cr
       subject: Ansible-report
-      body: System {{ job.name }} Started.
+      body: System "{{ my_somevar }}" Started.
     delegate_to: localhost
       
 - name: Snapshot the server
