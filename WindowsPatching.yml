@@ -21,8 +21,8 @@
       username: "{{ MailOptionUser }}"
       password: "{{ MailOptionPass }}"
       to: "{{ MailOptionTo }}"
-      subject: "{{ MailOptionSubject }}" "{{ MailOptionHostName }}" STARTED
-      body: "{{ MailOptionBody }}" "{{ MailOptionHostName }}" STARTED
+      subject: "{{ MailOptionSubject }}" STARTED "{{ MailOptionHostName }}"
+      body: "{{ MailOptionBody }}" STARTED "{{ MailOptionHostName }}"
     delegate_to: 127.0.0.1
       
 - name: Snapshot VM
@@ -78,6 +78,6 @@
       username: "{{ MailOptionUser }}"
       password: "{{ MailOptionPass }}"
       to: "{{ MailOptionTo }}"
-      subject: "{{ MailOptionSubject }}" "{{ MailOptionHostName }}" ENDED
-      body: "{{ MailOptionBody }}" "{{ MailOptionHostName }}" ENDED
+      subject: "{{ MailOptionSubject }}" ENDED "{{ MailOptionHostName }}"
+      body: "{{ MailOptionBody }}" ENDED "{{ MailOptionHostName }}"
     delegate_to: 127.0.0.1
