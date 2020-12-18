@@ -21,8 +21,8 @@
       username: "{{ MailOptionUser }}"
       password: "{{ MailOptionPass }}"
       to: "{{ MailOptionTo }}"
-      subject: STARTED "{{ MailOptionHostName }}"
-      body: STARTED "{{ MailOptionHostName }}"
+      subject: Patching STARTED "{{ MailOptionHostName }}"
+      body: Patching STARTED "{{ MailOptionHostName }}"
     delegate_to: 127.0.0.1
       
 - name: Snapshot VM
@@ -78,6 +78,6 @@
       username: "{{ MailOptionUser }}"
       password: "{{ MailOptionPass }}"
       to: "{{ MailOptionTo }}"
-      subject: ENDED "{{ MailOptionHostName }}"
-      body: ENDED "{{ MailOptionHostName }}"
+      subject: Patching ENDED "{{ MailOptionHostName }}"
+      body: Patching ENDED "{{ MailOptionHostName }}"
     delegate_to: 127.0.0.1
