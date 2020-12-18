@@ -1,6 +1,6 @@
 ---
     
-- name: Send Finish Notification
+- name: Send Start Notification
   hosts: all
   connection: local
   tasks:
