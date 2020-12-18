@@ -30,11 +30,11 @@
   
   - name: Create a snapshot
     vmware_guest_snapshot:
-      hostname: "192.168.254.148"
-      username: "patching@vsphere.local"
-      password: "Abc12345*/"
-      datacenter: "CFV"
-      moid: vm-65
+      hostname: "1"
+      username: ""
+      password: ""
+      datacenter: ""
+      moid: 
       state: present
       snapshot_name: Patching
       description: Before patching snap
