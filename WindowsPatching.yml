@@ -79,13 +79,12 @@
   
   
 - name: Send Finish Notification
-  vars:
-  VarLog: "{{ LogFile }}"
   hosts: all
   connection: local
   
   - name: Sending Email
     vars:
+      VarLog: "{{ LogFile }}"
       MailOptionHostName: "{{ hostnameIP }}"
       MailOptionHost: "{{ MailServer }}"
       MailOptionPort: "{{ MailPort }}"
