@@ -59,6 +59,7 @@
   tasks: 
     - name: Install all security, critical, and rollup updates
       vars:
+       VarLoc: "{{ LogLocation }}"
        VarLog: "{{ LogFile }}"
       win_updates:
         category_names:
@@ -67,14 +68,17 @@
         - UpdateRollups
         reboot: yes
         reboot_timeout: 7200
-        log_path: c:{{ VarLog }}
+        log_path: {{VarLoc}}{{ VarLog }}
         
         
 - name: Fetch File
   hosts: all
   tasks:
   - name: Fetch a info file
-    fetch: src=c:/{{ VarLog }} dest=/{{ VarLog }} flat=yes 
+    vars:
+     VarLoc: {{ LogLocation }}
+     VarLog: {{ LogFile }}
+    fetch: src={{VarLoc}}{{ VarLog }} dest=/{{ VarLog }} flat=yes 
   
   
 - name: Send Finish Notification
@@ -100,5 +104,5 @@
       subject: Patching ENDED "{{ MailOptionHostName }}"
       body: Patching ENDED "{{ MailOptionHostName }}"
       attach:
-      - /"{{ VarLog }}"
+      - /{{ VarLog }}
     delegate_to: 127.0.0.1
