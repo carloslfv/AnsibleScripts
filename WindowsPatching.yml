@@ -55,11 +55,11 @@
     
     
 - name: Install Updates on Server and then reboot
-  vars:
-  VarLog: "{{ LogFile }}"
   hosts: all
   tasks: 
     - name: Install all security, critical, and rollup updates
+      vars:
+       VarLog: "{{ LogFile }}"
       win_updates:
         category_names:
         - SecurityUpdates
