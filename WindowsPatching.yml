@@ -71,7 +71,7 @@
         
 - name: Send Finish Notification
   vars:
-  vOptionvCenter: "{{ vCenter_hostname }}"
+  VarLog: "{{ LogFile }}"
   hosts: all
   connection: local
   
@@ -94,4 +94,6 @@
       to: "{{ MailOptionTo }}"
       subject: Patching ENDED "{{ MailOptionHostName }}"
       body: Patching ENDED "{{ MailOptionHostName }}"
+      attach:
+      - /"{{ VarLog }}"
     delegate_to: 127.0.0.1
