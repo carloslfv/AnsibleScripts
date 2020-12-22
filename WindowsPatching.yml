@@ -69,14 +69,19 @@
         reboot_timeout: 7200
         log_path: c:\"{{ VarLog }}"
         
+        
+- name: Fetch File
+  hosts: all
+  tasks:
+  
+    - name: Fetch a info file
+    fetch: src=c:\"{{ VarLog }}" dest=/"{{ VarLog }}" flat=yes 
+  
 - name: Send Finish Notification
   vars:
   VarLog: "{{ LogFile }}"
   hosts: all
   connection: local
-  
-  - name: Fetch a info file
-    fetch: src=c:\"{{ VarLog }}" dest=/"{{ VarLog }}" flat=yes 
   
   - name: Sending Email
     vars:
