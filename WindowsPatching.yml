@@ -68,7 +68,7 @@
         - UpdateRollups
         reboot: yes
         reboot_timeout: 7200
-        log_path: {{VarLoc}}{{ VarLog }}
+        log_path: {{ VarLoc }}{{ VarLog }}
         
         
 - name: Fetch File
@@ -78,7 +78,7 @@
     vars:
      VarLoc: {{ LogLocation }}
      VarLog: {{ LogFile }}
-    fetch: src={{VarLoc}}{{ VarLog }} dest=/{{ VarLog }} flat=yes 
+    fetch: src={{ VarLoc }}{{ VarLog }} dest=/{{ VarLog }} flat=yes 
   
   
 - name: Send Finish Notification
