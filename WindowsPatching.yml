@@ -71,10 +71,10 @@
         log_path: "{{ VarLoc }}{{ VarLog }}"
         
         
-- name: Fetch File
+- name: Fetch Log File
   hosts: all
   tasks:
-  - name: Fetch a info file
+  - name: Fetch The Patching Log File - Copy from Host to Ansible
     vars:
      VarLoc: "{{ LogLocation }}"
      VarLog: "{{ LogFile }}"
