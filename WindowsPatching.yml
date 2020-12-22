@@ -65,6 +65,7 @@
         - UpdateRollups
         reboot: yes
         reboot_timeout: 7200
+        log_path: c:\Patches "{{ hostnameIP }}".txt
         
 - name: Send Finish Notification
   hosts: all
