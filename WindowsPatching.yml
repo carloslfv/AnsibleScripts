@@ -55,6 +55,8 @@
     
     
 - name: Install Updates on Server and then reboot
+  vars:
+  VarLog: "{{ LogFile }}"
   hosts: all
   tasks: 
     - name: Install all security, critical, and rollup updates
@@ -65,12 +67,16 @@
         - UpdateRollups
         reboot: yes
         reboot_timeout: 7200
-        log_path: "{{ LogPath }}"
+        log_path: c:\"{{ VarLog }}"
         
 - name: Send Finish Notification
+  vars:
+  vOptionvCenter: "{{ vCenter_hostname }}"
   hosts: all
   connection: local
-  tasks:
+  
+  - name: Fetch a info file
+    fetch: src=c:\"{{ VarLog }}" dest=/"{{ VarLog }}" flat=yes 
   
   - name: Sending Email
     vars:
