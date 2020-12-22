@@ -81,6 +81,7 @@
 - name: Send Finish Notification
   hosts: all
   connection: local
+  tasks:
   
   - name: Sending Email
     vars:
