@@ -67,7 +67,7 @@
         - UpdateRollups
         reboot: yes
         reboot_timeout: 7200
-        log_path: c:\"{{ VarLog }}"
+        log_path: c:{{ VarLog }}
         
         
 - name: Fetch File
