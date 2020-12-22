@@ -75,7 +75,7 @@
   tasks:
   
     - name: Fetch a info file
-    fetch: src=c:\"{{ VarLog }}" dest=/"{{ VarLog }}" flat=yes 
+      fetch: src=c:\"{{ VarLog }}" dest=/"{{ VarLog }}" flat=yes 
   
 - name: Send Finish Notification
   vars:
