@@ -31,7 +31,7 @@
     vars:
      vOptionvCenter: "{{ vCenter_hostname }}"
      vOptionusername: "{{ vCenter_username }}"
-     vOptionpassword: "{{ vCenter_password }}"
+     vOptionpassword: "{{ lookup('passwordmanagerpro','vCenter', '{{ vCenter_username }}') }}"
      vOptionDC: "{{ vCenter_datacenter }}"
      vOptionMachineID: "{{ vCenter_moid }}"
      vOptionState: "{{ vCenter_state }}"
