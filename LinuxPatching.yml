@@ -29,3 +29,11 @@
         ansible_distribution == 'Debian'
         or
         ansible_distribution == 'Ubuntu'
+        
+    - name: Reboot Ubuntu Debian system if required
+      command: shutdown -r now 'Rebooting to complete system upgrade'
+      removes=/var/run/reboot-required
+      when: >
+        ansible_distribution == 'Debian'
+        or
+        ansible_distribution == 'Ubuntu'
