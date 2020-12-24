@@ -55,7 +55,7 @@
     
     
 - name: Remove Old Log File
-  hosts: all
+  hosts: WINDOWS
   tasks:
     - name: Execute a comand in the remote shell
       vars:
@@ -64,8 +64,8 @@
       win_shell: Remove-Item {{ VarLoc }}{{ VarLog }} -ErrorAction Ignore
       ignore_errors: yes
     
-- name: Install Updates on Server and then reboot
-  hosts: all
+- name: Install Windows Updates on Server and then reboot
+  hosts: WINDOWS
   tasks: 
     - name: Install all security, critical, and rollup updates
       vars:
@@ -80,9 +80,34 @@
         reboot_timeout: 7200
         log_path: "{{ VarLoc }}{{ VarLog }}"
         
+ - name: Install Linux Updates
+  hosts: LINUX
+  become: true
+  tasks:
+    - name: .rpm upgrade server
+      yum: >
+        update_cache=yes
+        name=*
+        state=latest
+        update_cache=yes
+      when: >
+        ansible_distribution == 'CentOS'
+        or
+        ansible_distribution == 'RedHat'
+        
+    - name: .deb do dist-upgrade
+      apt: >
+        update_cache=yes
+        cache_valid_time=1200
+        upgrade=dist
+      when: >
+        ansible_distribution == 'Debian'
+        or
+        ansible_distribution == 'Ubuntu'
+        
         
 - name: Fetch Log File
-  hosts: all
+  hosts: WINDOWS
   tasks:
   - name: Fetch The Patching Log File - Copy from Host to Ansible
     vars:
