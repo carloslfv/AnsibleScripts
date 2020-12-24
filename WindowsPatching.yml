@@ -62,6 +62,7 @@
        VarLoc: "{{ LogLocation }}"
        VarLog: "{{ LogFile }}"
       win_shell: Remove-Item {{ VarLoc }}{{ VarLog }} -ErrorAction Ignore
+      ignore_errors: yes
     
 - name: Install Updates on Server and then reboot
   hosts: all
