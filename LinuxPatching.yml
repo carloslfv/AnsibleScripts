@@ -1,7 +1,7 @@
 ---
  
 - hosts: all
-  sudo: yes
+  become: true
   tasks:
     # This task updates servers that use 'yum' and RPM packages
     # by looking for CentOS or RedHat as a distribution name. This
