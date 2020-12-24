@@ -81,9 +81,9 @@
         log_path: "{{ VarLoc }}{{ VarLog }}"
         
  - name: Install Linux Updates
-  hosts: LINUX
-  become: true
-  tasks:
+   hosts: LINUX
+   become: true
+   tasks:
     - name: .rpm upgrade server
       yum: >
         update_cache=yes
