@@ -1,0 +1,118 @@
+---
+    
+- name: Send Start Notification
+  hosts: all
+  connection: local
+  tasks:
+  
+  - name: Sending Email
+    vars:
+      MailOptionHostName: "{{ hostnameIP }}"
+      MailOptionHost: "{{ MailServer }}"
+      MailOptionPort: "{{ MailPort }}"
+      MailOptionUser: "{{ MailUser }}"
+      MailOptionPass: "{{ MailPassword }}"
+      MailOptionTo: "{{ MailTo }}"
+    mail:
+      host: "{{ MailOptionHost }}"
+      port: "{{ MailOptionPort }}"
+      username: "{{ MailOptionUser }}"
+      password: "{{ MailOptionPass }}"
+      to: "{{ MailOptionTo }}"
+      subject: Patching STARTED "{{ MailOptionHostName }}"
+      body: Patching STARTED "{{ MailOptionHostName }}"
+    delegate_to: 127.0.0.1
+    
+- name: Snapshot VM
+  hosts: all
+  tasks: 
+  
+  - name: Create a Snapshot
+    vars:
+     vOptionvCenter: "{{ vCenter_hostname }}"
+     vOptionusername: "{{ vCenter_username }}"
+     vOptionpassword: "{{ vCenter_Password }}"
+     vOptionDC: "{{ vCenter_datacenter }}"
+     vOptionMachineID: "{{ vCenter_moid }}"
+     vOptionState: "{{ vCenter_state }}"
+     vOptionSnapName: "{{ vCenter_snapshot_name }}"
+     vOptionSnapDescription: "{{ vCenter_description }}"
+     vOptionQuiesce: "{{ vCenter_quiesce }}"
+     vOptionMemorySnap: "{{ vCenter_memory_dump }}"
+    vmware_guest_snapshot:
+      hostname: "{{ vOptionvCenter }}"
+      username: "{{ vOptionusername }}"
+      password: "{{ vOptionpassword }}"
+      datacenter: "{{ vOptionDC }}"
+      moid: "{{ vOptionMachineID }}"
+      state: "{{ vOptionState }}"
+      snapshot_name: "{{ vOptionSnapName }}"
+      description: "{{ vOptionSnapDescription }}"
+      quiesce: "{{ vCenter_quiesce }}"
+      memory_dump: "{{ vCenter_memory_dump }}"
+      validate_certs: no
+    delegate_to: localhost
+    
+    
+- name: Remove Old Log File
+  hosts: all
+  tasks:
+    - name: Execute a comand in the remote shell
+      vars:
+       VarLoc: "{{ LogLocation }}"
+       VarLog: "{{ LogFile }}"
+      win_shell: Remove-Item {{ VarLoc }}{{ VarLog }} -ErrorAction Ignore
+      ignore_errors: yes
+    
+- name: Install Updates on Server and then reboot
+  hosts: all
+  tasks: 
+    - name: Install all security, critical, and rollup updates
+      vars:
+       VarLoc: "{{ LogLocation }}"
+       VarLog: "{{ LogFile }}"
+      win_updates:
+        category_names:
+        - SecurityUpdates
+        - CriticalUpdates
+        - UpdateRollups
+        reboot: yes
+        reboot_timeout: 7200
+        log_path: "{{ VarLoc }}{{ VarLog }}"
+        
+        
+- name: Fetch Log File
+  hosts: all
+  tasks:
+  - name: Fetch The Patching Log File - Copy from Host to Ansible
+    vars:
+     VarLoc: "{{ LogLocation }}"
+     VarLog: "{{ LogFile }}"
+    fetch: src="{{ VarLoc }}{{ VarLog }}" dest=/{{ VarLog }} flat=yes 
+  
+  
+- name: Send Finish Notification
+  hosts: all
+  connection: local
+  tasks:
+  
+  - name: Sending Email
+    vars:
+      VarLog: "{{ LogFile }}"
+      MailOptionHostName: "{{ hostnameIP }}"
+      MailOptionHost: "{{ MailServer }}"
+      MailOptionPort: "{{ MailPort }}"
+      MailOptionUser: "{{ MailUser }}"
+      MailOptionPass: "{{ MailPassword }}"
+      MailOptionTo: "{{ MailTo }}"
+    mail:
+      host: "{{ MailOptionHost }}"
+      port: "{{ MailOptionPort }}"
+      username: "{{ MailOptionUser }}"
+      password: "{{ MailOptionPass }}"
+      to: "{{ MailOptionTo }}"
+      subject: Patching ENDED "{{ MailOptionHostName }}"
+      body: Patching ENDED "{{ MailOptionHostName }}"
+      attach:
+      - /{{ VarLog }}
+    delegate_to: 127.0.0.1
