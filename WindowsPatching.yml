@@ -22,7 +22,7 @@
       subject: Patching STARTED "{{ MailOptionHostName }}"
       body: Patching STARTED "{{ MailOptionHostName }}"
     delegate_to: 127.0.0.1
-      
+    
 - name: Snapshot VM
   hosts: all
   tasks: 
@@ -53,6 +53,15 @@
       validate_certs: no
     delegate_to: localhost
     
+    
+- name: Remove Old Log File
+  hosts: all
+  tasks:
+    - name: Execute a comand in the remote shell
+      vars:
+       VarLoc: "{{ LogLocation }}"
+       VarLog: "{{ LogFile }}"
+      win_shell: Remove-Item "{{ VarLoc }}{{ VarLog }}"
     
 - name: Install Updates on Server and then reboot
   hosts: all
