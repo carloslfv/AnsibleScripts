@@ -24,7 +24,7 @@
     delegate_to: 127.0.0.1
     
 - name: Snapshot VM
-  hosts: all
+  hosts: WINDOWS
   tasks: 
   
   - name: Create a Snapshot
@@ -79,6 +79,45 @@
         reboot: yes
         reboot_timeout: 7200
         log_path: "{{ VarLoc }}{{ VarLog }}"
+        
+- name: Fetch Log File
+  hosts: WINDOWS
+  tasks:
+  - name: Fetch The Patching Log File - Copy from Host to Ansible
+    vars:
+     VarLoc: "{{ LogLocation }}"
+     VarLog: "{{ LogFile }}"
+    fetch: src="{{ VarLoc }}{{ VarLog }}" dest=/{{ VarLog }} flat=yes 
+        
+- name: Snapshot VM
+  hosts: LINUX
+  tasks: 
+  
+  - name: Create a Snapshot
+    vars:
+     vOptionvCenter: "{{ vCenter_hostname }}"
+     vOptionusername: "{{ vCenter_username }}"
+     vOptionpassword: "{{ vCenter_Password }}"
+     vOptionDC: "{{ vCenter_datacenter }}"
+     vOptionMachineID: "{{ vCenter_moid }}"
+     vOptionState: "{{ vCenter_state }}"
+     vOptionSnapName: "{{ vCenter_snapshot_name }}"
+     vOptionSnapDescription: "{{ vCenter_description }}"
+     vOptionQuiesce: "{{ vCenter_quiesce }}"
+     vOptionMemorySnap: "{{ vCenter_memory_dump }}"
+    vmware_guest_snapshot:
+      hostname: "{{ vOptionvCenter }}"
+      username: "{{ vOptionusername }}"
+      password: "{{ vOptionpassword }}"
+      datacenter: "{{ vOptionDC }}"
+      moid: "{{ vOptionMachineID }}"
+      state: "{{ vOptionState }}"
+      snapshot_name: "{{ vOptionSnapName }}"
+      description: "{{ vOptionSnapDescription }}"
+      quiesce: "{{ vCenter_quiesce }}"
+      memory_dump: "{{ vCenter_memory_dump }}"
+      validate_certs: no
+    delegate_to: localhost
 
 - name: Patch Linux Servers and Reboot       
   hosts: LINUX
@@ -108,18 +147,7 @@
         
     - name: Reboot a slow machine that might have lots of updates to apply
       reboot:
-        reboot_timeout: 3600
-        
-        
-- name: Fetch Log File
-  hosts: WINDOWS
-  tasks:
-  - name: Fetch The Patching Log File - Copy from Host to Ansible
-    vars:
-     VarLoc: "{{ LogLocation }}"
-     VarLog: "{{ LogFile }}"
-    fetch: src="{{ VarLoc }}{{ VarLog }}" dest=/{{ VarLog }} flat=yes 
-  
+        reboot_timeout: 3600  
   
 - name: Send Finish Notification
   hosts: all
