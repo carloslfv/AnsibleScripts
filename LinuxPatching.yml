@@ -25,5 +25,6 @@
         or
         ansible_distribution == 'Ubuntu'
         
-    - name: Reboot
-      command: shutdown -r now 'Rebooting to complete system upgrade'
+    - name: Reboot a slow machine that might have lots of updates to apply
+       reboot:
+       reboot_timeout: 3600
