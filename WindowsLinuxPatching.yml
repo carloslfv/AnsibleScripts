@@ -79,11 +79,12 @@
         reboot: yes
         reboot_timeout: 7200
         log_path: "{{ VarLoc }}{{ VarLog }}"
-        
- - name: Install Linux Updates
-   hosts: LINUX
-   become: true
-   tasks:
+
+- name: Patch Linux Servers and Reboot       
+  hosts: LINUX
+  become: true
+  tasks:
+  
     - name: .rpm upgrade server
       yum: >
         update_cache=yes
@@ -104,6 +105,10 @@
         ansible_distribution == 'Debian'
         or
         ansible_distribution == 'Ubuntu'
+        
+    - name: Reboot a slow machine that might have lots of updates to apply
+      reboot:
+        reboot_timeout: 3600
         
         
 - name: Fetch Log File
