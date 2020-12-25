@@ -21,7 +21,7 @@
       username: "{{ MailOptionUser }}"
       password: "{{ MailOptionPass }}"
       to: "{{ MailOptionTo }}"
-      subject: {{ MailSubject }} {{ MailOptionHostName }}
+      subject: "{{ MailSubject }}" "{{ MailOptionHostName }}"
       body: {{ MaiMailBodylTo }}
     delegate_to: 127.0.0.1
         
