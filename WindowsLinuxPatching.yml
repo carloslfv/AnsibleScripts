@@ -109,7 +109,7 @@
       MailOptionCC: "{{ MailCC }}"
       MailOptionSubject: "{{ MailSubject }}"
       MailOptionBody: "{{ MailBody }}"
-      VarProgress: "in Progress"
+      VarProgress: " finished"
     mail:
       host: "{{ MailOptionHost }}"
       port: "{{ MailOptionPort }}"
@@ -239,7 +239,7 @@
       MailOptionCC: "{{ MailCC }}"
       MailOptionSubject: "{{ MailSubject }}"
       MailOptionBody: "{{ MailBody }}"
-      VarProgress: "in Progress"
+      VarProgress: "finished"
     mail:
       host: "{{ MailOptionHost }}"
       port: "{{ MailOptionPort }}"
