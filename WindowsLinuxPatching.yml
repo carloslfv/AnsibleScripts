@@ -15,6 +15,7 @@
       MailOptionTo: "{{ MailTo }}"
       MailOptionSubject: "{{ MailSubject }}"
       MailOptionBody: "{{ MailBody }}"
+      VarProgress: "in Progress"
     mail:
       host: "{{ MailOptionHost }}"
       port: "{{ MailOptionPort }}"
