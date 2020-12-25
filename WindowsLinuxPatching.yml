@@ -1,7 +1,7 @@
 ---
     
 - name: Send Start Notification
-  hosts: all
+  hosts: WINDOWS
   connection: local
   tasks:
   
@@ -87,7 +87,56 @@
     vars:
      VarLoc: "{{ LogLocation }}"
      VarLog: "{{ LogFile }}"
-    fetch: src="{{ VarLoc }}{{ VarLog }}" dest=/{{ VarLog }} flat=yes 
+    fetch: src="{{ VarLoc }}{{ VarLog }}" dest=/{{ VarLog }} flat=yes
+    
+- name: Send Finish Notification
+  hosts: WINDOWS
+  connection: local
+  tasks:
+  
+  - name: Sending Email
+    vars:
+      VarLog: "{{ LogFile }}"
+      MailOptionHostName: "{{ hostnameIP }}"
+      MailOptionHost: "{{ MailServer }}"
+      MailOptionPort: "{{ MailPort }}"
+      MailOptionUser: "{{ MailUser }}"
+      MailOptionPass: "{{ MailPassword }}"
+      MailOptionTo: "{{ MailTo }}"
+    mail:
+      host: "{{ MailOptionHost }}"
+      port: "{{ MailOptionPort }}"
+      username: "{{ MailOptionUser }}"
+      password: "{{ MailOptionPass }}"
+      to: "{{ MailOptionTo }}"
+      subject: Patching ENDED "{{ MailOptionHostName }}"
+      body: Patching ENDED "{{ MailOptionHostName }}"
+      attach:
+      - /{{ VarLog }}
+    delegate_to: 127.0.0.1
+    
+- name: Send Start Notification
+  hosts: LINUX
+  connection: local
+  tasks:
+  
+  - name: Sending Email
+    vars:
+      MailOptionHostName: "{{ hostnameIP }}"
+      MailOptionHost: "{{ MailServer }}"
+      MailOptionPort: "{{ MailPort }}"
+      MailOptionUser: "{{ MailUser }}"
+      MailOptionPass: "{{ MailPassword }}"
+      MailOptionTo: "{{ MailTo }}"
+    mail:
+      host: "{{ MailOptionHost }}"
+      port: "{{ MailOptionPort }}"
+      username: "{{ MailOptionUser }}"
+      password: "{{ MailOptionPass }}"
+      to: "{{ MailOptionTo }}"
+      subject: Patching STARTED "{{ MailOptionHostName }}"
+      body: Patching STARTED "{{ MailOptionHostName }}"
+    delegate_to: 127.0.0.1
         
 - name: Snapshot VM
   hosts: LINUX
@@ -150,7 +199,7 @@
         reboot_timeout: 3600  
   
 - name: Send Finish Notification
-  hosts: all
+  hosts: LINUX
   connection: local
   tasks:
   
@@ -171,6 +220,4 @@
       to: "{{ MailOptionTo }}"
       subject: Patching ENDED "{{ MailOptionHostName }}"
       body: Patching ENDED "{{ MailOptionHostName }}"
-      attach:
-      - /{{ VarLog }}
     delegate_to: 127.0.0.1
