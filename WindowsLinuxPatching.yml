@@ -13,16 +13,16 @@
       MailOptionUser: "{{ MailUser }}"
       MailOptionPass: "{{ MailPassword }}"
       MailOptionTo: "{{ MailTo }}"
-      MailSubject: "{{ MailSubject }}"
-      MailBody: "{{ MaiMailBodylTo }}"
+      MailOptionSubject: "{{ MailSubject }}"
+      MailOptionBody: "{{ MailBody }}"
     mail:
       host: "{{ MailOptionHost }}"
       port: "{{ MailOptionPort }}"
       username: "{{ MailOptionUser }}"
       password: "{{ MailOptionPass }}"
       to: "{{ MailOptionTo }}"
-      subject: "{{ MailSubject }}{{ MailOptionHostName }}"
-      body: {{ MaiMailBodylTo }}
+      subject: "{{ MailOptionSubject }}"
+      body: {{ MailOptionBody }}
     delegate_to: 127.0.0.1
         
 - name: Snapshot VM
