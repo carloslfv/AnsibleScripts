@@ -22,6 +22,7 @@
       password: "{{ MailOptionPass }}"
       to: "{{ MailOptionTo }}"
       subject: "{{ MailOptionSubject }}"
+      subtype: html
       body: "{{ MailOptionBody }}"
     delegate_to: 127.0.0.1
         
