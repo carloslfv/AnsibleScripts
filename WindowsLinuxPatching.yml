@@ -94,21 +94,24 @@
   
   - name: Sending Email
     vars:
-      VarLog: "{{ LogFile }}"
       MailOptionHostName: "{{ hostnameIP }}"
       MailOptionHost: "{{ MailServer }}"
       MailOptionPort: "{{ MailPort }}"
       MailOptionUser: "{{ MailUser }}"
       MailOptionPass: "{{ MailPassword }}"
       MailOptionTo: "{{ MailTo }}"
+      MailOptionSubject: "{{ MailSubject }}"
+      MailOptionBody: "{{ MailBody }}"
+      VarProgress: "Finished"
     mail:
       host: "{{ MailOptionHost }}"
       port: "{{ MailOptionPort }}"
       username: "{{ MailOptionUser }}"
       password: "{{ MailOptionPass }}"
       to: "{{ MailOptionTo }}"
-      subject: Patching ENDED "{{ MailOptionHostName }}"
-      body: Patching ENDED "{{ MailOptionHostName }}"
+      subject: "{{ MailOptionSubject }}"
+      subtype: html
+      body: "{{ MailOptionBody }}"
     delegate_to: 127.0.0.1
 
 - name: Send Start Notification
@@ -124,14 +127,18 @@
       MailOptionUser: "{{ MailUser }}"
       MailOptionPass: "{{ MailPassword }}"
       MailOptionTo: "{{ MailTo }}"
+      MailOptionSubject: "{{ MailSubject }}"
+      MailOptionBody: "{{ MailBody }}"
+      VarProgress: "in Progress"
     mail:
       host: "{{ MailOptionHost }}"
       port: "{{ MailOptionPort }}"
       username: "{{ MailOptionUser }}"
       password: "{{ MailOptionPass }}"
       to: "{{ MailOptionTo }}"
-      subject: Patching STARTED "{{ MailOptionHostName }}"
-      body: Patching STARTED "{{ MailOptionHostName }}"
+      subject: "{{ MailOptionSubject }}"
+      subtype: html
+      body: "{{ MailOptionBody }}"
     delegate_to: 127.0.0.1
     
 - name: Snapshot VM
@@ -207,21 +214,24 @@
   
   - name: Sending Email
     vars:
-      VarLog: "{{ LogFile }}"
       MailOptionHostName: "{{ hostnameIP }}"
       MailOptionHost: "{{ MailServer }}"
       MailOptionPort: "{{ MailPort }}"
       MailOptionUser: "{{ MailUser }}"
       MailOptionPass: "{{ MailPassword }}"
       MailOptionTo: "{{ MailTo }}"
+      MailOptionSubject: "{{ MailSubject }}"
+      MailOptionBody: "{{ MailBody }}"
+      VarProgress: "Finished"
     mail:
       host: "{{ MailOptionHost }}"
       port: "{{ MailOptionPort }}"
       username: "{{ MailOptionUser }}"
       password: "{{ MailOptionPass }}"
       to: "{{ MailOptionTo }}"
-      subject: Patching ENDED "{{ MailOptionHostName }}"
-      body: Patching ENDED "{{ MailOptionHostName }}"
+      subject: "{{ MailOptionSubject }}"
+      subtype: html
+      body: "{{ MailOptionBody }}"
       attach:
       - /{{ VarLog }}
     delegate_to: 127.0.0.1
