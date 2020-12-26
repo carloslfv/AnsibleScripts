@@ -1,0 +1,257 @@
+---
+
+- name: Send Start Notification
+  hosts: LINUX
+  connection: local
+  tasks:
+  
+  - name: Sending Email
+    vars:
+      MailOptionHostName: "{{ hostnameIP }}"
+      MailOptionHost: "{{ MailServer }}"
+      MailOptionPort: "{{ MailPort }}"
+      MailOptionUser: "{{ MailUser }}"
+      MailOptionPass: "{{ MailPassword }}"
+      MailOptionTo1: "{{ MailTo }}"
+      MailOptionTo2: "{{ MailTo2 }}"
+      MailOptionCC: "{{ MailCC }}"
+      MailOptionSubject: "{{ MailSubject }}"
+      MailOptionBody: "{{ MailBody }}"
+      VarProgress: "in Progress"
+    mail:
+      host: "{{ MailOptionHost }}"
+      port: "{{ MailOptionPort }}"
+      username: "{{ MailOptionUser }}"
+      password: "{{ MailOptionPass }}"
+      to:
+      - "{{ MailOptionTo1 }}"
+      - "{{ MailOptionTo2 }}"
+      cc: "{{ MailOptionCC }}"
+      subject: "{{ MailOptionSubject }}"
+      subtype: html
+      body: "{{ MailOptionBody }}"
+    delegate_to: 127.0.0.1
+        
+- name: Snapshot VM
+  hosts: LINUX
+  tasks: 
+  
+  - name: Create a Snapshot
+    vars:
+     vOptionvCenter: "{{ vCenter_hostname }}"
+     vOptionusername: "{{ vCenter_username }}"
+     vOptionpassword: "{{ vCenter_Password }}"
+     vOptionDC: "{{ vCenter_datacenter }}"
+     vOptionMachineID: "{{ vCenter_moid }}"
+     vOptionState: "{{ vCenter_state }}"
+     vOptionSnapName: "{{ vCenter_snapshot_name }}"
+     vOptionSnapDescription: "{{ vCenter_description }}"
+     vOptionQuiesce: "{{ vCenter_quiesce }}"
+     vOptionMemorySnap: "{{ vCenter_memory_dump }}"
+    vmware_guest_snapshot:
+      hostname: "{{ vOptionvCenter }}"
+      username: "{{ vOptionusername }}"
+      password: "{{ vOptionpassword }}"
+      datacenter: "{{ vOptionDC }}"
+      moid: "{{ vOptionMachineID }}"
+      state: "{{ vOptionState }}"
+      snapshot_name: "{{ vOptionSnapName }}"
+      description: "{{ vOptionSnapDescription }}"
+      quiesce: "{{ vCenter_quiesce }}"
+      memory_dump: "{{ vCenter_memory_dump }}"
+      validate_certs: no
+    delegate_to: localhost
+
+- name: Patch Linux Servers and Reboot       
+  hosts: LINUX
+  become: true
+  tasks:
+  
+    - name: .rpm upgrade server
+      yum: >
+        update_cache=yes
+        name=*
+        state=latest
+        update_cache=yes
+      when: >
+        ansible_distribution == 'CentOS'
+        or
+        ansible_distribution == 'RedHat'
+        
+    - name: .deb do dist-upgrade
+      apt: >
+        update_cache=yes
+        cache_valid_time=1200
+        upgrade=dist
+      when: >
+        ansible_distribution == 'Debian'
+        or
+        ansible_distribution == 'Ubuntu'
+        
+    - name: Reboot a slow machine that might have lots of updates to apply
+      reboot:
+        reboot_timeout: 3600  
+  
+- name: Send Finish Notification
+  hosts: LINUX
+  connection: local
+  tasks:
+  
+  - name: Sending Email
+    vars:
+      MailOptionHostName: "{{ hostnameIP }}"
+      MailOptionHost: "{{ MailServer }}"
+      MailOptionPort: "{{ MailPort }}"
+      MailOptionUser: "{{ MailUser }}"
+      MailOptionPass: "{{ MailPassword }}"
+      MailOptionTo1: "{{ MailTo }}"
+      MailOptionTo2: "{{ MailTo2 }}"
+      MailOptionCC: "{{ MailCC }}"
+      MailOptionSubject: "{{ MailSubject }}"
+      MailOptionBody: "{{ MailBody }}"
+      VarProgress: " finished"
+    mail:
+      host: "{{ MailOptionHost }}"
+      port: "{{ MailOptionPort }}"
+      username: "{{ MailOptionUser }}"
+      password: "{{ MailOptionPass }}"
+      to:
+      - "{{ MailOptionTo1 }}"
+      - "{{ MailOptionTo2 }}"
+      cc: "{{ MailOptionCC }}"
+      subject: "{{ MailOptionSubject }}"
+      subtype: html
+      body: "{{ MailOptionBody }}"
+    delegate_to: 127.0.0.1
+
+- name: Send Start Notification
+  hosts: WINDOWS
+  connection: local
+  tasks:
+  
+  - name: Sending Email
+    vars:
+      MailOptionHostName: "{{ hostnameIP }}"
+      MailOptionHost: "{{ MailServer }}"
+      MailOptionPort: "{{ MailPort }}"
+      MailOptionUser: "{{ MailUser }}"
+      MailOptionPass: "{{ MailPassword }}"
+      MailOptionTo1: "{{ MailTo }}"
+      MailOptionTo2: "{{ MailTo2 }}"
+      MailOptionCC: "{{ MailCC }}"
+      MailOptionSubject: "{{ MailSubject }}"
+      MailOptionBody: "{{ MailBody }}"
+      VarProgress: "in Progress"
+    mail:
+      host: "{{ MailOptionHost }}"
+      port: "{{ MailOptionPort }}"
+      username: "{{ MailOptionUser }}"
+      password: "{{ MailOptionPass }}"
+      to:
+      - "{{ MailOptionTo1 }}"
+      - "{{ MailOptionTo2 }}"
+      cc: "{{ MailOptionCC }}"
+      subject: "{{ MailOptionSubject }}"
+      subtype: html
+      body: "{{ MailOptionBody }}"
+    delegate_to: 127.0.0.1
+    
+- name: Snapshot VM
+  hosts: WINDOWS
+  tasks: 
+  
+  - name: Create a Snapshot
+    vars:
+     vOptionvCenter: "{{ vCenter_hostname }}"
+     vOptionusername: "{{ vCenter_username }}"
+     vOptionpassword: "{{ vCenter_Password }}"
+     vOptionDC: "{{ vCenter_datacenter }}"
+     vOptionMachineID: "{{ vCenter_moid }}"
+     vOptionState: "{{ vCenter_state }}"
+     vOptionSnapName: "{{ vCenter_snapshot_name }}"
+     vOptionSnapDescription: "{{ vCenter_description }}"
+     vOptionQuiesce: "{{ vCenter_quiesce }}"
+     vOptionMemorySnap: "{{ vCenter_memory_dump }}"
+    vmware_guest_snapshot:
+      hostname: "{{ vOptionvCenter }}"
+      username: "{{ vOptionusername }}"
+      password: "{{ vOptionpassword }}"
+      datacenter: "{{ vOptionDC }}"
+      moid: "{{ vOptionMachineID }}"
+      state: "{{ vOptionState }}"
+      snapshot_name: "{{ vOptionSnapName }}"
+      description: "{{ vOptionSnapDescription }}"
+      quiesce: "{{ vCenter_quiesce }}"
+      memory_dump: "{{ vCenter_memory_dump }}"
+      validate_certs: no
+    delegate_to: localhost
+    
+    
+- name: Remove Old Log File
+  hosts: WINDOWS
+  tasks:
+    - name: Execute a comand in the remote shell
+      vars:
+       VarLoc: "{{ LogLocation }}"
+       VarLog: "{{ LogFile }}"
+      win_shell: Remove-Item {{ VarLoc }}{{ VarLog }} -ErrorAction Ignore
+      ignore_errors: yes
+    
+- name: Install Windows Updates on Server and then reboot
+  hosts: WINDOWS
+  tasks: 
+    - name: Install all security, critical, and rollup updates
+      vars:
+       VarLoc: "{{ LogLocation }}"
+       VarLog: "{{ LogFile }}"
+      win_updates:
+        category_names:
+        - SecurityUpdates
+        - CriticalUpdates
+        - UpdateRollups
+        reboot: yes
+        reboot_timeout: 7200
+        log_path: "{{ VarLoc }}{{ VarLog }}"
+        
+- name: Fetch Log File
+  hosts: WINDOWS
+  tasks:
+  - name: Fetch The Patching Log File - Copy from Host to Ansible
+    vars:
+     VarLoc: "{{ LogLocation }}"
+     VarLog: "{{ LogFile }}"
+    fetch: src="{{ VarLoc }}{{ VarLog }}" dest=/{{ VarLog }} flat=yes
+    
+- name: Send Finish Notification
+  hosts: WINDOWS
+  connection: local
+  tasks:
+  
+  - name: Sending Email
+    vars:
+      MailOptionHostName: "{{ hostnameIP }}"
+      MailOptionHost: "{{ MailServer }}"
+      MailOptionPort: "{{ MailPort }}"
+      MailOptionUser: "{{ MailUser }}"
+      MailOptionPass: "{{ MailPassword }}"
+      MailOptionTo1: "{{ MailTo }}"
+      MailOptionTo2: "{{ MailTo2 }}"
+      MailOptionCC: "{{ MailCC }}"
+      MailOptionSubject: "{{ MailSubject }}"
+      MailOptionBody: "{{ MailBody }}"
+      VarProgress: "finished"
+    mail:
+      host: "{{ MailOptionHost }}"
+      port: "{{ MailOptionPort }}"
+      username: "{{ MailOptionUser }}"
+      password: "{{ MailOptionPass }}"
+      to:
+      - "{{ MailOptionTo1 }}"
+      - "{{ MailOptionTo2 }}"
+      cc: "{{ MailOptionCC }}"
+      subject: "{{ MailOptionSubject }}"
+      subtype: html
+      body: "{{ MailOptionBody }}"
+      attach:
+      - /{{ VarLog }}
+    delegate_to: 127.0.0.1
