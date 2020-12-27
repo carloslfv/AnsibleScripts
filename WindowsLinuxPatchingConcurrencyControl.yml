@@ -34,7 +34,7 @@
         
 - name:  Update LINUX Machines
   vars:
-   OptionConcurrency: "{{ WinConcurrency }}"
+   OptionConcurrency: "{{ LnxConcurrency }}"
   serial: "{{ Concurrency }}"
   hosts: LINUX
   become: true
