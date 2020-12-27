@@ -155,6 +155,7 @@
     
 - name: Update Windows Machines
   hosts: WINDOWS
+  serial: 1
   tasks: 
   
   - name: Create a Snapshot
