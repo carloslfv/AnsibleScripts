@@ -33,8 +33,10 @@
     delegate_to: 127.0.0.1
         
 - name:  Update LINUX Machines
+  vars:
+   OptionConcurrency: "{{ WinConcurrency }}"
+  serial: "{{ Concurrency }}"
   hosts: LINUX
-  serial: 2
   become: true
   tasks: 
   
@@ -123,7 +125,6 @@
 
 - name: Send Start Notification
   hosts: WINDOWS
-  serial: 2
   connection: local
   tasks:
   
@@ -154,7 +155,10 @@
       body: "{{ MailOptionBody }}"
     delegate_to: 127.0.0.1
     
-- name: Update LINUX Machines
+- name: Update Windows Machines
+  vars:
+   OptionConcurrency: "{{ WinConcurrency }}"
+  serial: "{{ Concurrency }}"
   hosts: WINDOWS
   tasks: 
   
