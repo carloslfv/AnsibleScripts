@@ -33,9 +33,7 @@
     delegate_to: 127.0.0.1
         
 - name:  Update LINUX Machines
-  vars:
-   OptionConcurrency: {{ Instances }}
-  serial: "{{ OptionConcurrency }}"
+  serial: 1
   hosts: LINUX
   become: true
   tasks: 
@@ -156,9 +154,6 @@
     delegate_to: 127.0.0.1
     
 - name: Update Windows Machines
-  vars:
-   OptionConcurrency: {{ Instances }}
-  serial: "{{ OptionConcurrency }}"
   hosts: WINDOWS
   tasks: 
   
