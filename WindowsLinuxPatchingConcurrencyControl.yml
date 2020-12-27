@@ -34,8 +34,8 @@
         
 - name:  Update LINUX Machines
   vars:
-   OptionConcurrency: "{{ Instances }}"
-  serial: "{{ OptionConcurrency }}"
+   OptionConcurrency: {{ Instances }}
+  serial: {{ OptionConcurrency }}
   hosts: LINUX
   become: true
   tasks: 
@@ -157,8 +157,8 @@
     
 - name: Update Windows Machines
   vars:
-   OptionConcurrency: "{{ Instances }}"
-  serial: "{{ OptionConcurrency }}"
+   OptionConcurrency: {{ Instances }}
+  serial: {{ OptionConcurrency }}
   hosts: WINDOWS
   tasks: 
   
