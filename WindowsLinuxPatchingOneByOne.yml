@@ -189,7 +189,7 @@
       - CriticalUpdates
       - UpdateRollups
       reboot: "{{ VarReboot }}"
-      reboot_timeout: "{{ VarRebootTimeOut }}"
+      reboot_timeout: "{{ VarRebootTimeOut | int }}"
       log_path: "{{ VarLoc }}{{ VarLog }}"
         
   - name: Fetch Log File
