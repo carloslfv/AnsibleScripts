@@ -180,7 +180,7 @@
      VarLoc: "{{ LogLocation }}"
      VarLog: "{{ LogFile }}"
      VarReboot: "{{ AutoReboot }}"
-     VarRebootTimeOut: "{{ AutoRebootTimeOut }}"
+     VarRebootTimeOut: {{ AutoRebootTimeOut }}
     win_updates:
       category_names:
       - SecurityUpdates
