@@ -1,11 +1,11 @@
 ---
 
-- name: Send Start Notification
+- name:  Update LINUX Machines
   hosts: LINUX
-  connection: local
-  tasks:
+  become: true
+  tasks: 
   
-  - name: Sending Email
+  - name: Send Start Notification
     vars:
       MailOptionHostName: "{{ hostnameIP }}"
       MailOptionHost: "{{ MailServer }}"
@@ -31,11 +31,6 @@
       subtype: html
       body: "{{ MailOptionBody }}"
     delegate_to: 127.0.0.1
-        
-- name:  Update LINUX Machines
-  hosts: LINUX
-  become: true
-  tasks: 
   
   - name: Create a Snapshot
     vars:
@@ -88,12 +83,7 @@
     reboot:
       reboot_timeout: 3600  
   
-- name: Send Finish Notification
-  hosts: LINUX
-  connection: local
-  tasks:
-  
-  - name: Sending Email
+  - name: Send Finish Notification
     vars:
       MailOptionHostName: "{{ hostnameIP }}"
       MailOptionHost: "{{ MailServer }}"
@@ -120,12 +110,11 @@
       body: "{{ MailOptionBody }}"
     delegate_to: 127.0.0.1
 
-- name: Send Start Notification
+- name: Update Windows Machines
   hosts: WINDOWS
-  connection: local
-  tasks:
+  tasks: 
   
-  - name: Sending Email
+  - name: Send Start Notification
     vars:
       MailOptionHostName: "{{ hostnameIP }}"
       MailOptionHost: "{{ MailServer }}"
@@ -151,10 +140,6 @@
       subtype: html
       body: "{{ MailOptionBody }}"
     delegate_to: 127.0.0.1
-    
-- name: Update Windows Machines
-  hosts: WINDOWS
-  tasks: 
   
   - name: Create a Snapshot
     vars:
@@ -208,13 +193,8 @@
      VarLoc: "{{ LogLocation }}"
      VarLog: "{{ LogFile }}"
     fetch: src="{{ VarLoc }}{{ VarLog }}" dest=/{{ VarLog }} flat=yes
-    
-- name: Send Finish Notification
-  hosts: WINDOWS
-  connection: local
-  tasks:
   
-  - name: Sending Email
+  - name: Send Finish Notification
     vars:
       MailOptionHostName: "{{ hostnameIP }}"
       MailOptionHost: "{{ MailServer }}"
@@ -226,6 +206,7 @@
       MailOptionCC: "{{ MailCC }}"
       MailOptionSubject: "{{ MailSubject }}"
       MailOptionBody: "{{ MailBody }}"
+      VarLog: "{{ LogFile }}"
       VarProgress: "finished"
     mail:
       host: "{{ MailOptionHost }}"
