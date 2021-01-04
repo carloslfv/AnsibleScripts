@@ -182,14 +182,13 @@
      VarLoc: "{{ LogLocation }}"
      VarLog: "{{ LogFile }}"
      VarReboot: "{{ AutoReboot }}"
-     VarRebootTimeOut: "{{ AutoRebootTimeOut }}"
     win_updates:
       category_names:
       - SecurityUpdates
       - CriticalUpdates
       - UpdateRollups
       reboot: "{{ VarReboot }}"
-      reboot_timeout: "{{ VarRebootTimeOut | int }}"
+      reboot_timeout: 7200
       log_path: "{{ VarLoc }}{{ VarLog }}"
         
   - name: Fetch Log File
