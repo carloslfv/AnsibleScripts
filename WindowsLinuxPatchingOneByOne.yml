@@ -228,6 +228,7 @@
       MailOptionCC: "{{ MailCC }}"
       MailOptionSubject: "{{ MailSubject }}"
       MailOptionBody: "{{ MailBody }}"
+      VarLog: "{{ LogFile }}"
       VarProgress: "finished"
     mail:
       host: "{{ MailOptionHost }}"
