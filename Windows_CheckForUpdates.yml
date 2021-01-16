@@ -1,10 +1,11 @@
 ---
 
 - name: Check Windows For Updates
+  strategy: free
   hosts: WINDOWS
   tasks:
   
-  - name: CreateBodyTemplates
+  - name: CreateBodyTemplate
     vars:
      VarJobID: "{{ tower_job_id }}"
      VarLink: "{{ MailLink }}"
@@ -33,13 +34,15 @@
 - name: Create Temp Folder
   hosts: localhost
   tasks:
+
   - name: Create LogFolder
     shell:
      cmd: mkdir /tmp/{{ tower_job_id }}
         
-- name: Check Windows For Updates
+- name: Fetch Logs
   hosts: WINDOWS
   tasks:
+  
   - name: Fetch Log File
     vars:
      VarLoc: "{{ LogLocation }}"
@@ -48,13 +51,13 @@
    
 - name: Create ZIP File
   hosts: localhost
-  tasks:   
+  tasks:
+  
   - name: ZipUpdateLogs
     shell:
      cmd: tar -zcvf /tmp/{{ tower_job_id }}.tar.gz /tmp/{{ tower_job_id }}/
-  
+ 
   - name: Send Finish Notification
-    hosts: localhost
     vars:
       MailOptionHostName: "{{ hostnameIP }}"
       MailOptionHost: "{{ MailServer }}"
