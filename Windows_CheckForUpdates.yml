@@ -32,11 +32,12 @@
       
 - name: Create Temp Folder
   hosts: localhost
+  become: true
   tasks:
 
   - name: Create LogFolder
     shell:
-     cmd: mkdir /tmp/{{ tower_job_id }}
+     cmd: mkdir /tmp/{{ tower_job_id }}/
         
 - name: Fetch Logs
   hosts: WINDOWS
@@ -50,6 +51,7 @@
    
 - name: Create ZIP File
   hosts: localhost
+  become: true
   tasks:
   
   - name: ZipUpdateLogs
