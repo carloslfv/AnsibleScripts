@@ -1,7 +1,6 @@
 ---
 
 - name: Check Windows For Updates
-  strategy: free
   hosts: WINDOWS
   tasks:
   
