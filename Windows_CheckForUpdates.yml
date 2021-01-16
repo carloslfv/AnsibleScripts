@@ -3,6 +3,13 @@
 - name: Check Windows For Updates
   hosts: WINDOWS
   tasks:
+  
+  - name: CreateBodyTemplates
+    vars:
+     VarJobID: "{{ tower_job_id }}"
+     VarLink: "{{ MailLink }}"
+    script: /BodyTemplates/EmailScript.sh "{{ VarJobID }}" "{{ VarLink }}"
+    delegate_to: localhost
      
   - name: Remove Old Log File
     vars:
@@ -64,7 +71,7 @@
       cc: "{{ MailOptionCC }}"
       subject: "{{ MailOptionSubject }}"
       subtype: html
-      body: "{{ lookup('file', '/BodyTemplates/CheckUpdatesBodyTemplate.html') }}"
+      body: "{{ lookup('file', '/tmp/{{ tower_job_id }}.html') }}"
       attach:
       - /tmp/{{ tower_job_id }}.tar.gz
     delegate_to: 127.0.0.1
