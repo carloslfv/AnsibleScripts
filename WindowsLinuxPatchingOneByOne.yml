@@ -4,7 +4,16 @@
   serial: 1
   hosts: LINUX
   become: true
-  tasks: 
+  tasks:
+  
+  - name: CreateBodyTemplates
+    vars:
+     VarVMID: "{{ vCenter_moid }}"
+     VarHostName: "{{ hostnameIP }}"
+     VarReboot: "{{ AutoReboot }}"
+     VarLink: "{{ MailLink }}"
+    script: /BodyTemplates/EmailScript.sh "{{ VarVMID }}" '"{{ VarHostName }}"' "{{ VarReboot }}" "{{ VarLink }}"
+    delegate_to: localhost
   
   - name: Send Start Notification
     vars:
@@ -17,11 +26,11 @@
       MailOptionTo2: "{{ MailTo2 }}"
       MailOptionCC: "{{ MailCC }}"
       MailOptionSubject: "{{ MailSubject }}"
-      MailOptionBody: "{{ MailBody }}"
-      VarProgress: "in Progress"
+      VarVMID: "{{ vCenter_moid }}"
     mail:
       host: "{{ MailOptionHost }}"
       port: "{{ MailOptionPort }}"
+      from: "{{ MailOptionUser }}"
       username: "{{ MailOptionUser }}"
       password: "{{ MailOptionPass }}"
       to:
@@ -30,7 +39,7 @@
       cc: "{{ MailOptionCC }}"
       subject: "{{ MailOptionSubject }}"
       subtype: html
-      body: "{{ MailOptionBody }}"
+      body: "{{ lookup('file', '/tmp/{{ VarVMID }}_Start.html') }}"
     delegate_to: 127.0.0.1
   
   - name: Create a Snapshot
@@ -95,11 +104,11 @@
       MailOptionTo2: "{{ MailTo2 }}"
       MailOptionCC: "{{ MailCC }}"
       MailOptionSubject: "{{ MailSubject }}"
-      MailOptionBody: "{{ MailBody }}"
-      VarProgress: " finished"
+      VarVMID: "{{ vCenter_moid }}"
     mail:
       host: "{{ MailOptionHost }}"
       port: "{{ MailOptionPort }}"
+      from: "{{ MailOptionUser }}"
       username: "{{ MailOptionUser }}"
       password: "{{ MailOptionPass }}"
       to:
@@ -108,13 +117,22 @@
       cc: "{{ MailOptionCC }}"
       subject: "{{ MailOptionSubject }}"
       subtype: html
-      body: "{{ MailOptionBody }}"
+      body: "{{ lookup('file', '/tmp/{{ VarVMID }}_End.html') }}"
     delegate_to: 127.0.0.1
 
 - name: Update Windows Machines
   hosts: WINDOWS
   serial: 1
-  tasks: 
+  tasks:
+  
+  - name: CreateBodyTemplates
+    vars:
+     VarVMID: "{{ vCenter_moid }}"
+     VarHostName: "{{ hostnameIP }}"
+     VarReboot: "{{ AutoReboot }}"
+     VarLink: "{{ MailLink }}"
+    script: /BodyTemplates/EmailScript.sh "{{ VarVMID }}" '"{{ VarHostName }}"' "{{ VarReboot }}" "{{ VarLink }}"
+    delegate_to: localhost
   
   - name: Send Start Notification
     vars:
@@ -128,10 +146,11 @@
       MailOptionCC: "{{ MailCC }}"
       MailOptionSubject: "{{ MailSubject }}"
       MailOptionBody: "{{ MailBody }}"
-      VarProgress: "in Progress"
+      VarVMID: "{{ vCenter_moid }}"
     mail:
       host: "{{ MailOptionHost }}"
       port: "{{ MailOptionPort }}"
+      from: "{{ MailOptionUser }}"
       username: "{{ MailOptionUser }}"
       password: "{{ MailOptionPass }}"
       to:
@@ -140,7 +159,7 @@
       cc: "{{ MailOptionCC }}"
       subject: "{{ MailOptionSubject }}"
       subtype: html
-      body: "{{ MailOptionBody }}"
+      body: "{{ lookup('file', '/tmp/{{ VarVMID }}_Start.html') }}"
     delegate_to: 127.0.0.1
   
   - name: Create a Snapshot
@@ -209,11 +228,12 @@
       MailOptionCC: "{{ MailCC }}"
       MailOptionSubject: "{{ MailSubject }}"
       MailOptionBody: "{{ MailBody }}"
+      VarVMID: "{{ vCenter_moid }}"
       VarLog: "{{ LogFile }}"
-      VarProgress: "finished"
     mail:
       host: "{{ MailOptionHost }}"
       port: "{{ MailOptionPort }}"
+      from: "{{ MailOptionUser }}"
       username: "{{ MailOptionUser }}"
       password: "{{ MailOptionPass }}"
       to:
@@ -222,7 +242,7 @@
       cc: "{{ MailOptionCC }}"
       subject: "{{ MailOptionSubject }}"
       subtype: html
-      body: "{{ MailOptionBody }}"
+      body: "{{ lookup('file', '/tmp/{{ VarVMID }}_End.html') }}"
       attach:
       - /{{ VarLog }}
     delegate_to: 127.0.0.1

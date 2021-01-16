@@ -1,0 +1,100 @@
+---
+
+- name: Update Windows Machines
+  hosts: WINDOWS
+  strategy: free
+  tasks:
+  
+  - name: CreateBodyTemplates
+    vars:
+     VarVMID: "{{ tower_job_id }}"
+     VarHostName: "{{ hostnameIP }}"
+     VarReboot: "{{ AutoReboot }}"
+     VarLink: "{{ MailLink }}"
+    script: /BodyTemplates/EmailScript.sh "{{ VarVMID }}" '"{{ VarHostName }}"' "{{ VarReboot }}" "{{ VarLink }}"
+    delegate_to: localhost
+  
+  - name: Send Start Notification
+    vars:
+      MailOptionHostName: "{{ hostnameIP }}"
+      MailOptionHost: "{{ MailServer }}"
+      MailOptionPort: "{{ MailPort }}"
+      MailOptionUser: "{{ MailUser }}"
+      MailOptionPass: "{{ MailPassword }}"
+      MailOptionTo1: "{{ MailTo }}"
+      MailOptionTo2: "{{ MailTo2 }}"
+      MailOptionCC: "{{ MailCC }}"
+      MailOptionSubject: "{{ MailSubject }}"
+      MailOptionBody: "{{ MailBody }}"
+      VarVMID: "{{ tower_job_id }}"
+    mail:
+      host: "{{ MailOptionHost }}"
+      port: "{{ MailOptionPort }}"
+      from: "{{ MailOptionUser }}"
+      username: "{{ MailOptionUser }}"
+      password: "{{ MailOptionPass }}"
+      to:
+      - "{{ MailOptionTo1 }}"
+      - "{{ MailOptionTo2 }}"
+      cc: "{{ MailOptionCC }}"
+      subject: "{{ MailOptionSubject }}"
+      subtype: html
+      body: "{{ lookup('file', '/tmp/{{ VarVMID }}_Start.html') }}"
+    delegate_to: 127.0.0.1
+    
+  - name: Remove Old Log File
+    vars:
+     VarLoc: "{{ LogLocation }}"
+     VarLog: "{{ LogFile }}"
+    win_shell: Remove-Item {{ VarLoc }}{{ VarLog }} -ErrorAction Ignore
+    ignore_errors: yes
+    
+  - name: Install Windows Updates
+    vars:
+     VarLoc: "{{ LogLocation }}"
+     VarLog: "{{ LogFile }}"
+     VarReboot: "{{ AutoReboot }}"
+    win_updates:
+      category_names:
+      - SecurityUpdates
+      - CriticalUpdates
+      - UpdateRollups
+      reboot: "{{ VarReboot }}"
+      reboot_timeout: 7200
+      log_path: "{{ VarLoc }}{{ VarLog }}"
+        
+  - name: Fetch Log File
+    vars:
+     VarLoc: "{{ LogLocation }}"
+     VarLog: "{{ LogFile }}"
+    fetch: src="{{ VarLoc }}{{ VarLog }}" dest=/{{ VarLog }} flat=yes
+  
+  - name: Send Finish Notification
+    vars:
+      MailOptionHostName: "{{ hostnameIP }}"
+      MailOptionHost: "{{ MailServer }}"
+      MailOptionPort: "{{ MailPort }}"
+      MailOptionUser: "{{ MailUser }}"
+      MailOptionPass: "{{ MailPassword }}"
+      MailOptionTo1: "{{ MailTo }}"
+      MailOptionTo2: "{{ MailTo2 }}"
+      MailOptionCC: "{{ MailCC }}"
+      MailOptionSubject: "{{ MailSubject }}"
+      VarVMID: "{{ tower_job_id }}"
+      VarLog: "{{ LogFile }}"
+    mail:
+      host: "{{ MailOptionHost }}"
+      port: "{{ MailOptionPort }}"
+      from: "{{ MailOptionUser }}"
+      username: "{{ MailOptionUser }}"
+      password: "{{ MailOptionPass }}"
+      to:
+      - "{{ MailOptionTo1 }}"
+      - "{{ MailOptionTo2 }}"
+      cc: "{{ MailOptionCC }}"
+      subject: "{{ MailOptionSubject }}"
+      subtype: html
+      body: "{{ lookup('file', '/tmp/{{ VarVMID }}_End.html') }}"
+      attach:
+      - /{{ VarLog }}
+    delegate_to: 127.0.0.1
