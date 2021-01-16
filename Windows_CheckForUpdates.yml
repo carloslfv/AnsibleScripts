@@ -1,0 +1,70 @@
+---
+
+- name: Check Windows For Updates
+  hosts: WINDOWS
+  tasks:
+     
+  - name: Remove Old Log File
+    vars:
+     VarLoc: "{{ LogLocation }}"
+     VarLog: "{{ LogFile }}"
+    win_shell: Remove-Item {{ VarLoc }}{{ VarLog }} -ErrorAction Ignore
+    ignore_errors: yes
+    
+  - name: Check for Updates
+    vars:
+     VarLoc: "{{ LogLocation }}"
+     VarLog: "{{ LogFile }}"
+    win_updates:
+      category_names:
+      - SecurityUpdates
+      - CriticalUpdates
+      - UpdateRollups
+      state: searched
+      log_path: "{{ VarLoc }}{{ VarLog }}"
+      
+  - name: Create LogFolder
+    hosts: localhost
+    shell:
+     cmd: mkdir /tmp/{{ tower_job_id }}
+        
+  - name: Fetch Log File
+    vars:
+     VarLoc: "{{ LogLocation }}"
+     VarLog: "{{ LogFile }}"
+    fetch: src="{{ VarLoc }}{{ VarLog }}" dest=/tmp/{{ tower_job_id }}/{{ VarLog }} flat=yes
+    
+  - name: ZipUpdateLogs
+    hosts: localhost
+    shell:
+     cmd: tar -zcvf /tmp/{{ tower_job_id }}.tar.gz /tmp/{{ tower_job_id }}/
+  
+  - name: Send Finish Notification
+    hosts: localhost
+    vars:
+      MailOptionHostName: "{{ hostnameIP }}"
+      MailOptionHost: "{{ MailServer }}"
+      MailOptionPort: "{{ MailPort }}"
+      MailOptionUser: "{{ MailUser }}"
+      MailOptionPass: "{{ MailPassword }}"
+      MailOptionTo1: "{{ MailTo }}"
+      MailOptionTo2: "{{ MailTo2 }}"
+      MailOptionCC: "{{ MailCC }}"
+      MailOptionSubject: "{{ MailSubject }}"
+      VarLog: "{{ LogFile }}"
+    mail:
+      host: "{{ MailOptionHost }}"
+      port: "{{ MailOptionPort }}"
+      from: "{{ MailOptionUser }}"
+      username: "{{ MailOptionUser }}"
+      password: "{{ MailOptionPass }}"
+      to:
+      - "{{ MailOptionTo1 }}"
+      - "{{ MailOptionTo2 }}"
+      cc: "{{ MailOptionCC }}"
+      subject: "{{ MailOptionSubject }}"
+      subtype: html
+      body: "{{ lookup('file', '/tmp/{{ tower_job_id }}.tar.gz') }}"
+      attach:
+      - /tmp/{{ VarLog }}
+    delegate_to: 127.0.0.1
