@@ -30,19 +30,26 @@
       state: searched
       log_path: "{{ VarLoc }}{{ VarLog }}"
       
+- name: Create Temp Folder
+  hosts: localhost
+  tasks:
   - name: Create LogFolder
-    hosts: localhost
     shell:
      cmd: mkdir /tmp/{{ tower_job_id }}
         
+- name: Check Windows For Updates
+  hosts: WINDOWS
+  tasks:
   - name: Fetch Log File
     vars:
      VarLoc: "{{ LogLocation }}"
      VarLog: "{{ LogFile }}"
     fetch: src="{{ VarLoc }}{{ VarLog }}" dest=/tmp/{{ tower_job_id }}/{{ VarLog }} flat=yes
-    
+   
+- name: Create ZIP File
+  hosts: localhost
+  tasks:   
   - name: ZipUpdateLogs
-    hosts: localhost
     shell:
      cmd: tar -zcvf /tmp/{{ tower_job_id }}.tar.gz /tmp/{{ tower_job_id }}/
   
