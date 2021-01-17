@@ -3,14 +3,7 @@
 - name: Check Windows For Updates
   hosts: WINDOWS
   tasks:
-  
-  - name: CreateBodyTemplate
-    vars:
-     VarJobID: "{{ tower_job_id }}"
-     VarLink: "{{ MailLink }}"
-    script: /BodyTemplates/EmailScript.sh "{{ VarJobID }}" "{{ VarLink }}"
-    delegate_to: localhost
-     
+
   - name: Remove Old Log File
     vars:
      VarLoc: "{{ LogLocation }}"
@@ -30,10 +23,17 @@
       state: searched
       log_path: "{{ VarLoc }}{{ VarLog }}"
       
-- name: Create Temp Folder
+- name: Create BodyTemplate and Log Folder
   hosts: localhost
   become: true
   tasks:
+  
+  - name: CreateBodyTemplate
+    vars:
+     VarJobID: "{{ tower_job_id }}"
+     VarLink: "{{ MailLink }}"
+    script: /BodyTemplates/EmailScript2.sh "{{ VarJobID }}" "{{ VarLink }}"
+    delegate_to: localhost
 
   - name: Create LogFolder
     shell:
