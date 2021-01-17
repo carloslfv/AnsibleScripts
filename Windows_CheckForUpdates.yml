@@ -49,14 +49,16 @@
      VarLog: "{{ LogFile }}"
     fetch: src="{{ VarLoc }}{{ VarLog }}" dest=/tmp/{{ tower_job_id }}/{{ VarLog }} flat=yes
    
-- name: Create ZIP File
+- name: Send Email Report
   hosts: localhost
   become: true
   tasks:
   
-  - name: ZipUpdateLogs
-    shell:
-     cmd: tar -zcvf /tmp/{{ tower_job_id }}.tar.gz /tmp/{{ tower_job_id }}/
+  - name: Consolidate Log Files
+    vars:
+     VarJobID: "{{ tower_job_id }}"
+    script: /BodyTemplates/UpdatesReport.sh "{{ VarJobID }}"
+    delegate_to: localhost
  
   - name: Send Finish Notification
     vars:
@@ -84,5 +86,5 @@
       subtype: html
       body: "{{ lookup('file', '/tmp/{{ tower_job_id }}.html') }}"
       attach:
-      - /tmp/{{ tower_job_id }}.tar.gz
+      - /tmp/{{ tower_job_id }}/{{ tower_job_id }}.log
     delegate_to: 127.0.0.1
