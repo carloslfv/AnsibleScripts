@@ -46,12 +46,6 @@
   hosts: localhost
   become: true
   tasks:
-  
-  - name: Consolidate Log Files
-    vars:
-     VarJobID: "{{ tower_job_id }}"
-    script: /BodyTemplates/UpdatesReport.sh "{{ VarJobID }}"
-    delegate_to: localhost
     
   - name: CreateBodyTemplate
     vars:
