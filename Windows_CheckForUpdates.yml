@@ -23,17 +23,10 @@
       state: searched
       log_path: "{{ VarLoc }}{{ VarLog }}"
       
-- name: Create BodyTemplate and Log Folder
+- name: Create Log Folder
   hosts: localhost
   become: true
   tasks:
-  
-  - name: CreateBodyTemplate
-    vars:
-     VarJobID: "{{ tower_job_id }}"
-     VarLink: "{{ MailLink }}"
-    script: /BodyTemplates/EmailScript2.sh "{{ VarJobID }}" "{{ VarLink }}"
-    delegate_to: localhost
 
   - name: Create LogFolder
     shell:
@@ -58,6 +51,13 @@
     vars:
      VarJobID: "{{ tower_job_id }}"
     script: /BodyTemplates/UpdatesReport.sh "{{ VarJobID }}"
+    delegate_to: localhost
+    
+  - name: CreateBodyTemplate
+    vars:
+     VarJobID: "{{ tower_job_id }}"
+     VarLink: "{{ MailLink }}"
+    script: /BodyTemplates/EmailScript2.sh "{{ VarJobID }}" "{{ VarLink }}"
     delegate_to: localhost
  
   - name: Send Finish Notification
