@@ -8,6 +8,9 @@
   - name: Create LogFolder
     shell:
      cmd: mkdir /tmp/{{ tower_job_id }}/
+     
+  - name: Copy Template
+    shell:
      cmd: cp /BodyTemplates/NTNXDSReport.html /tmp/{{ tower_job_id }}/{{ tower_job_id }}.html
     
   - name: CreateBodyTemplate
