@@ -1,0 +1,44 @@
+---
+ 
+- name: Send Email Report
+  hosts: localhost
+  become: true
+  tasks:
+    
+  - name: CreateBodyTemplate
+    vars:
+     VarJobID: "{{ tower_job_id }}"
+     VarLink: "{{ MailLink }}"
+     VarPrismUser: "{{ PrismUser }}"
+     VarPrismPass: "{{ PrismPass }}"
+     VarPrismURL: "{{ PrismURL }}"
+     VarStatsFilter: "{{ StatsFilter }}"
+    script: /BodyTemplates/EmailScript3.sh "{{ VarJobID }}" "{{ VarLink }}" "{{ VarPrismUser }}" "{{ VarPrismPass }}" "{{ VarPrismURL }}" "{{ VarStatsFilter }}"
+    delegate_to: localhost
+ 
+  - name: Send Finish Notification
+    vars:
+      MailOptionHostName: "{{ hostnameIP }}"
+      MailOptionHost: "{{ MailServer }}"
+      MailOptionPort: "{{ MailPort }}"
+      MailOptionUser: "{{ MailUser }}"
+      MailOptionPass: "{{ MailPassword }}"
+      MailOptionTo1: "{{ MailTo }}"
+      MailOptionTo2: "{{ MailTo2 }}"
+      MailOptionCC: "{{ MailCC }}"
+      MailOptionSubject: "{{ MailSubject }}"
+      VarLog: "{{ LogFile }}"
+    mail:
+      host: "{{ MailOptionHost }}"
+      port: "{{ MailOptionPort }}"
+      from: "{{ MailOptionUser }}"
+      username: "{{ MailOptionUser }}"
+      password: "{{ MailOptionPass }}"
+      to:
+      - "{{ MailOptionTo1 }}"
+      - "{{ MailOptionTo2 }}"
+      cc: "{{ MailOptionCC }}"
+      subject: "{{ MailOptionSubject }}"
+      subtype: html
+      body: "{{ lookup('file', '/tmp/{{ tower_job_id }}.html') }}"
+    delegate_to: 127.0.0.1
