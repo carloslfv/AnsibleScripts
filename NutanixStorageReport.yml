@@ -4,6 +4,10 @@
   hosts: localhost
   become: true
   tasks:
+  
+  - name: Create LogFolder
+    shell:
+     cmd: mkdir /tmp/{{ tower_job_id }}/
     
   - name: CreateBodyTemplate
     vars:
