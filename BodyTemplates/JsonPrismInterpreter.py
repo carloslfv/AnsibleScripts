@@ -4,10 +4,11 @@ import requests
 from requests.auth import HTTPBasicAuth
 
 JobID = sys.argv[1]
-wsuser = sys.argv[2]
-wspass = sys.argv[3]
-prismurl = sys.argv[4]
-requiredstats = sys.argv[5].split (",")
+Link = sys.argv[2]
+wsuser = sys.argv[3]
+wspass = sys.argv[4]
+prismurl = sys.argv[5]
+requiredstats = sys.argv[6].split (",")
 
 workingdir='/tmp/'+JobID+'/'
 
@@ -20,7 +21,8 @@ jsonfile.close()
 
 outputstring = ""
 
-file1 = open(workingdir+'File.report', 'w') 
+with open(workingdir+JobID+'.html') as file:
+    finalhtml = file.read()
 
 with open(workingdir+'file.json') as json_format_file: 
   d = j.load(json_format_file)
@@ -67,5 +69,12 @@ for z in d["entities"]:
         outputstring = outputstring + "<td>"+sts1+"</td>"
         outputstring = outputstring + "</tr>"    
   outputstring = outputstring + "</table><hr>"
-file1.writelines(outputstring)
-file1.close() 
+
+
+finalhtml = finalhtml.replace("VarHyperLink", Link)
+finalhtml = finalhtml.replace("VarHTMLTable", outputstring)
+print(finalhtml)
+
+f = open(workingdir+JobID+'.html', 'w')
+f.write(finalhtml)
+f.close()
