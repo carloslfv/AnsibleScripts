@@ -78,7 +78,5 @@
       cc: "{{ MailOptionCC }}"
       subject: "{{ MailOptionSubject }}"
       subtype: html
-      body: "{{ lookup('file', '/tmp/{{ tower_job_id }}.html') }}"
-      attach:
-      - /tmp/{{ tower_job_id }}/{{ tower_job_id }}.log
+      body: "{{ lookup('file', '/tmp/{{ tower_job_id }}/{{ tower_job_id }}.html') }}"
     delegate_to: 127.0.0.1

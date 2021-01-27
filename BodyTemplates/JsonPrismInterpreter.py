@@ -52,15 +52,21 @@ for z in d["entities"]:
        #print (usage_stats_list2[index])
        sts = usage_stats_list2[index].replace("'","").replace(" ","").replace("{","").replace("}","")
        if ("bytes" in usage_stats_list1[index]):
-        sts1 = int(sts)
-        if (sts1 >= 1073741824):
+        sts1 = float(sts)
+        if (sts1 >= 1099511627776):
+         sts1 = sts1/1099511627776
+         sts1 = str(round(sts1,2))+" TB"
+        elif (sts1 >= 1073741824):
          sts1 = sts1/1073741824
          sts1 = str(round(sts1,2))+" GB"
-        else:
+        elif (sts1 >= 1048576):
          sts1 = sts1/1048576
          sts1 = str(round(sts1,2))+" MB"
+        else:
+         print("Its below a single MB")
+         sts1 = str(sts1)
         outputstring = outputstring + "<tr>"
-        outputstring = outputstring + "<td>"+stat+"</td>"
+        outputstring = outputstring + "<td>"+stat.replace("storage user unreserved usage","Used").replace("storage user capacity","Max Capacity").replace("storage user free","Free Space (Logical)")+"</td>"
         outputstring = outputstring + "<td>"+sts1+"</td>"
         outputstring = outputstring + "</tr>"
        else:
