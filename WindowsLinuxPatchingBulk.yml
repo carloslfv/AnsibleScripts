@@ -121,6 +121,7 @@
       subtype: html
       body: "{{ lookup('file', '/tmp/{{ VarVMID }}_End.html') }}"
     delegate_to: 127.0.0.1
+    vOptionIsVirtual: "{{ Virtual }}"
 
 - name: Update Windows Machines
   hosts: WINDOWS
@@ -189,6 +190,7 @@
       memory_dump: "{{ vCenter_memory_dump }}"
       validate_certs: no
     delegate_to: localhost
+    when: vOptionIsVirtual|bool
     
     
   - name: Remove Old Log File
