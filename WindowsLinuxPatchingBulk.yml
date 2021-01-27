@@ -54,6 +54,7 @@
      vOptionSnapDescription: "{{ vCenter_description }}"
      vOptionQuiesce: "{{ vCenter_quiesce }}"
      vOptionMemorySnap: "{{ vCenter_memory_dump }}"
+     vOptionIsVirtual: "{{ Virtual }}"
     vmware_guest_snapshot:
       hostname: "{{ vOptionvCenter }}"
       username: "{{ vOptionusername }}"
@@ -67,6 +68,7 @@
       memory_dump: "{{ vCenter_memory_dump }}"
       validate_certs: no
     delegate_to: localhost
+    when: vOptionIsVirtual|bool
   
   - name: .rpm upgrade server
     yum: >
